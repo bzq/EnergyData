@@ -19,7 +19,7 @@ public class SensorDaoImpl implements SensorDao {
 		System.out.println("Sensor DAO: ");
 		System.out.println(sensor.toString());
 		try {
-			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO  Sensor (descriptionSensor,location,idHouseHold,idAppliance) VALUES (?,?,?,?)");
+			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO  Sensor (descriptionSensor,location,idHouseHold,idAppliance, idSensor) VALUES (?,?,?,?,?)");
 			
 			preparedStatement.setString(1, sensor.getDescriptionSensor());
 			
@@ -28,6 +28,8 @@ public class SensorDaoImpl implements SensorDao {
 			preparedStatement.setInt(3, sensor.getHouseHold().getIdHouseHold());
 			
 			preparedStatement.setInt(4, sensor.getAppliance().getIdAppliance());
+			
+			preparedStatement.setInt(5, sensor.getIdentifySensor());
 			
 
 			

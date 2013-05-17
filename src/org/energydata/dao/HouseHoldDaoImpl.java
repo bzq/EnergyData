@@ -43,9 +43,9 @@ public class HouseHoldDaoImpl implements HouseHoldDao {
 			    return id;  
 				*/
 			
-			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO HouseHold (houseHoldName) VALUES (?)");
+			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO HouseHold (idHouseHold) VALUES (?)");
 			
-			preparedStatement.setString(1, household.getHouseName());
+			preparedStatement.setInt(1, household.getIdHouseHold());
 			
 			
 			int status = preparedStatement.executeUpdate();
@@ -87,11 +87,11 @@ public class HouseHoldDaoImpl implements HouseHoldDao {
 	@Override
 	public HouseHold find(HouseHold household) {
 		try {
-			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("SELECT idHouseHold, houseHoldName  FROM HouseHold WHERE houseHoldName = ? ");
+			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("SELECT idHouseHold  FROM HouseHold WHERE idHouseHold = ? ");
 			
 
 	
-			preparedStatement.setString(1, household.getHouseName());
+			preparedStatement.setInt(1, household.getIdHouseHold());
 			
 
 

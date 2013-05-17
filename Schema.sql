@@ -1,5 +1,4 @@
 Drop table HouseHold;
-DROP SEQUENCE houseHold_Seq;
 
 Drop table Appliance;
 DROP SEQUENCE appliance_Seq;  
@@ -18,24 +17,7 @@ Drop SEQUENCE sensor_Seq;
      
 CREATE  TABLE HouseHold (
   idHouseHold INT NOT NULL ,
-  houseHoldName VARCHAR(45) NOT NULL ,
   PRIMARY KEY (idHouseHold) );
-
-CREATE SEQUENCE houseHold_Seq
- INCREMENT BY 1    
-     START WITH 1     
-     NOMAXVALUE       
-     NOCYCLE           
-     CACHE 10; 
-     
-CREATE OR REPLACE TRIGGER houseHold_Trigg BEFORE
-INSERT ON HouseHold FOR EACH ROW
-BEGIN
-SELECT houseHold_Seq.nextval INTO:New.idHouseHold FROM dual;	
-	
-END;
-/
-
      
 CREATE  TABLE Appliance (
   idAppliance INT NOT NULL ,
@@ -49,9 +31,6 @@ CREATE SEQUENCE appliance_Seq
      NOMAXVALUE       
      NOCYCLE           
      CACHE 10; 
-     
-
-
   
 CREATE OR REPLACE TRIGGER appliance_Trigg BEFORE
 
@@ -65,8 +44,8 @@ END;
 
 CREATE  TABLE Sensor (
   idSensor INT NOT NULL ,
-  descriptionSensor VARCHAR(255) NOT NULL ,
-  location VARCHAR(45) NOT NULL ,
+  descriptionSensor VARCHAR(255) NULL ,
+  location VARCHAR(45) NULL ,
   idHouseHold INT NOT NULL ,
   idAppliance INT NOT NULL ,
   PRIMARY KEY (idSensor));
@@ -77,6 +56,7 @@ CREATE SEQUENCE sensor_Seq;
 
 CREATE  TABLE Measure (
   idSensor INT NOT NULL ,
+  idHouseHold INT NOT NULL,
   dateMeasure date NOT NULL,
   state INT NOT NULL ,
   energyValue INT NOT NULL ,

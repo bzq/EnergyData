@@ -20,16 +20,19 @@ public class MeasureDaoImpl implements MeasureDao {
 		System.out.println("Measure DAO: ");
 		System.out.println(measure.toString());
 		try {
-			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO  Measure ( idSensor,dateMeasure,state,energyValue) VALUES (?,?,?,?)");
+			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO  Measure ( idSensor, idHouseHold ,dateMeasure,state,energyValue) VALUES (?,?,TO_DATE(?,'DD-MM-YYYY HH24:MI'),?,?)");
 			
 			preparedStatement.setInt(1, measure.getSensor().getIdentifySensor());
 			
-			java.sql.Date sqlDate = new java.sql.Date(measure.getDate().getTime());
-			preparedStatement.setDate(2, sqlDate);
+			preparedStatement.setInt(2, measure.getSensor().getHouseHold().getIdHouseHold());
 			
-			preparedStatement.setInt(3, measure.getState());
+			String date = measure.getDate().getDay()+"-"+(measure.getDate().getMonth()+1)+"-"+measure.getDate().getYear()+" "+measure.getDate().getHours()+":"+measure.getDate().getMinutes();
+			System.out.println("date: "+date);
+			preparedStatement.setString(3, date);
 			
-			preparedStatement.setFloat(4, measure.getEnergyValue());
+			preparedStatement.setInt(4, measure.getState());
+			
+			preparedStatement.setFloat(5, measure.getEnergyValue());
 			
 			int status = preparedStatement.executeUpdate();
 			System.out.println("Resultat de l'insertion DAO Measure: "+status);

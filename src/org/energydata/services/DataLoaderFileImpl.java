@@ -161,11 +161,11 @@ public class DataLoaderFileImpl  implements DataLoader{
 				this.add(mesure);
 			}
 			else if(header[0].trim().equals("HOUSEHOLD")){
-				String houseName = header[1];
+				int houseName = Integer.parseInt(header[1].trim());
 				houseHold = Factory.createHouseHold(houseName);
 			}
 			else if(header[0].trim().equals("APPLIANCE")){
-				String applianceName = header[1];
+				String applianceName = header[1].trim();
 				appliance = extractApplianceFromApplianceName(applianceName, houseHold);
 				sensor = extractSensorFromApplianceName(applianceName,appliance,houseHold);
 			}

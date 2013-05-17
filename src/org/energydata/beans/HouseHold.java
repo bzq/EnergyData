@@ -8,8 +8,6 @@ public class HouseHold {
 	
 	private int idHouseHold;
 
-	private String houseName;
-
 	private ArrayList<Appliance> listOfAppliance;
 
 	private ArrayList<Sensor> listOfSensor;
@@ -64,9 +62,6 @@ public class HouseHold {
 		return listOfSensor.equals(o);
 	}
 
-	public String getHouseName() {
-		return houseName;
-	}
 
 	/**
 	 * @return the listOfAppliance
@@ -110,14 +105,6 @@ public class HouseHold {
 	}
 
 	/**
-	 * Set the value of houseName
-	 *
-	 * @param houseName new value of houseName
-	 */
-	public void setHouseName(String houseName) {
-		this.houseName = houseName;
-	}
-	/**
 	 * @param listOfAppliance the listOfAppliance to set
 	 */
 	public void setListOfAppliance(ArrayList<Appliance> listOfAppliance) {
@@ -136,7 +123,7 @@ public class HouseHold {
 	 */
 	@Override
 	public String toString() {
-		return "HouseHold [houseName=" + houseName + ", listOfAppliance="
+		return "HouseHold [houseId=" + idHouseHold + ", listOfAppliance="
 				+ listOfAppliance + ", listOfSensor="+ "]";
 	}
 
