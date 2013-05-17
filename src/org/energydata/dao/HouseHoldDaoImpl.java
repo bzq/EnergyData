@@ -18,70 +18,28 @@ public class HouseHoldDaoImpl implements HouseHoldDao {
 	public HouseHold create(HouseHold household) {
 		System.out.println("HouseHold DAO: ");
 		System.out.println(household.toString());
-		
+		System.out.println("id household dao: "+household.getIdHouseHold());
+		int id = household.getIdHouseHold();
 		HouseHold tmp =this.find(household);
-		
-		if(tmp!=null && tmp.getIdHouseHold()!= -1){
-			
+
+		if(tmp==null){
+			try {			
+				PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO HouseHold (idHouseHold) VALUES (?)");
+				preparedStatement.setInt(1, household.getIdHouseHold());
+				int status = preparedStatement.executeUpdate();
+
+				System.out.println("Resultat de l'insertion DAO HouseHold: "+status);
+				return household;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+
+		}
+		else{
 			return tmp;
 		}
-		else
-		{
-		try {
-			
-			/*
-	
-			    OraclePreparedStatement pstmt =(OraclePreparedStatement)conn.prepareStatement(vsql);  
-			    pstmt.registerReturnParameter(1, Types.BIGINT);  
-			    pstmt.executeUpdate();  
-			    ResultSet rs=pstmt.getReturnResultSet();  
-			    rs.next();  
-			    int id=rs.getInt(1);  
-			    rs.close();  
-			    pstmt.close();  
-			    System.out.print("id:"+id);  
-			    return id;  
-				*/
-			
-			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO HouseHold (idHouseHold) VALUES (?)");
-			
-			preparedStatement.setInt(1, household.getIdHouseHold());
-			
-			
-			int status = preparedStatement.executeUpdate();
-			if(status==1){
-				preparedStatement = daoFactory.getConnection().prepareStatement("SELECT max(idHouseHold) from HouseHold");
-				
-				ResultSet rs =preparedStatement.executeQuery();
-				rs.next();
-						
-				//ResultSet rs = preparedStatement.getGeneratedKeys();
-				household.setIdHouseHold(rs.getInt(1)); 
-
-				}
-				else
-				{
-					household.setIdHouseHold(-1);
-									
-				}
-
-			
-			//int status = preparedStatement.executeUpdate();
-
-			//ResultSet rs = preparedStatement.getGeneratedKeys();
-			//household.setIdHouseHold(rs.getInt(1)); 
-			System.out.println("Resultat de l'insertion DAO HouseHold: "+status);
-			return household;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-		}
-		
-		
-	
-		
 	}
 
 	@Override
@@ -89,28 +47,19 @@ public class HouseHoldDaoImpl implements HouseHoldDao {
 		try {
 			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("SELECT idHouseHold  FROM HouseHold WHERE idHouseHold = ? ");
 			
-
-	
 			preparedStatement.setInt(1, household.getIdHouseHold());
-			
-
 
 			// execute select SQL stetement
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			if (rs.next()) {
-				
-				int idHouseHold = rs.getInt("idHouseHold");
-				household.setIdHouseHold(idHouseHold);     
+				return household;
 				 
 			}
 			else
 			{
-			    household.setIdHouseHold(-1);				
+			    return null;				
 			}	
-			
-			System.out.println("Resultat de la selection DAO HouseHold: "+ household.toString());
-			return household;  
 		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
