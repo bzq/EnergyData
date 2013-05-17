@@ -137,7 +137,7 @@ public class HouseHold {
 	@Override
 	public String toString() {
 		return "HouseHold [houseName=" + houseName + ", listOfAppliance="
-				+ listOfAppliance + ", listOfSensor=" + listOfSensor+ "]";
+				+ listOfAppliance + ", listOfSensor="+ "]";
 	}
 
 

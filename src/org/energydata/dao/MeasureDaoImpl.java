@@ -1,7 +1,7 @@
 package org.energydata.dao;
 
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -24,7 +24,8 @@ public class MeasureDaoImpl implements MeasureDao {
 			
 			preparedStatement.setInt(1, measure.getSensor().getIdentifySensor());
 			
-			preparedStatement.setDate(2, (Date) measure.getDate());
+			java.sql.Date sqlDate = new java.sql.Date(measure.getDate().getTime());
+			preparedStatement.setDate(2, sqlDate);
 			
 			preparedStatement.setInt(3, measure.getState());
 			

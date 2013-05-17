@@ -107,8 +107,7 @@ public class Appliance {
 	 */
 	@Override
 	public String toString() {
-		return "Appliance [applianceName=" + applianceName + ", listOfSensor="
-				+ listOfSensor + "]";
+		return "Appliance [applianceName=" + applianceName + ", listOfSensor=" + "]";
 	}
 
 

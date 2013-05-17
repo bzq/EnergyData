@@ -158,7 +158,6 @@ public class FileDataLoader  implements DataLoader{
 				long energyValue = Long.parseLong(data[3]);
 				int state = Integer.parseInt(data[2]);
 				mesure= Factory.createMeasure(dateMeasure, energyValue, state, sensor);
-				System.out.println(mesure.toString());
 				this.add(mesure);
 			}
 			else if(header[0].trim().equals("HOUSEHOLD")){
@@ -181,16 +180,11 @@ public class FileDataLoader  implements DataLoader{
 		System.out.println("Debut du programme");
 
 		String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
-		DataLoader instance = new FileDataLoader(new File(dataSource));
+		DataLoader dataLoader = new FileDataLoader(new File(dataSource));
 
-		for (Measure m : instance.getMeasures()){
-			System.out.println("mesure: "+m.getDate());
-		}
-
+		DataStorage dataStorage = new DataStorageDBImpl();
+		dataStorage.save(dataLoader);
 		System.out.println("Programme termine");
-
-
-
 
 	}
 
