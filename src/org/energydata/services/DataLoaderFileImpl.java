@@ -32,7 +32,7 @@ import org.energydata.dao.SensorDao;
  *
  * @author bingzhi
  */
-public class FileDataLoader  implements DataLoader{
+public class DataLoaderFileImpl  implements DataLoader{
 
 	private DAOFactory daoFactory;
 	
@@ -45,7 +45,7 @@ public class FileDataLoader  implements DataLoader{
 		return listMeasures.add(e);
 	}
 
-	public FileDataLoader(File file){
+	public DataLoaderFileImpl(File file){
 		listMeasures = new ArrayList<Measure>();
 		FileReader fr=null;
 
@@ -62,12 +62,12 @@ public class FileDataLoader  implements DataLoader{
 			fr.close();
 
 		} catch (IOException ex) {
-			Logger.getLogger(FileDataLoader.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(DataLoaderFileImpl.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			try {
 				fr.close();
 			} catch (IOException ex) {
-				Logger.getLogger(FileDataLoader.class.getName()).log(Level.SEVERE, null, ex);
+				Logger.getLogger(DataLoaderFileImpl.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}  
 	}
@@ -180,7 +180,7 @@ public class FileDataLoader  implements DataLoader{
 		System.out.println("Debut du programme");
 
 		String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
-		DataLoader dataLoader = new FileDataLoader(new File(dataSource));
+		DataLoader dataLoader = new DataLoaderFileImpl(new File(dataSource));
 
 		DataStorage dataStorage = new DataStorageDBImpl();
 		dataStorage.save(dataLoader);
