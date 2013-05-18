@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.energydata.beans.Measure;
+import org.joda.time.DateTime;
+
 import static org.energydata.dao.DAOUtilities.*;
 
 public class MeasureDaoImpl implements MeasureDao {
@@ -29,10 +31,10 @@ public class MeasureDaoImpl implements MeasureDao {
 			preparedStatement.setInt(1, measure.getSensor().getIdentifySensor());
 			
 			preparedStatement.setInt(2, measure.getSensor().getHouseHold().getIdHouseHold());
-			
-			String date = measure.getDate().getDay()+"-"+(measure.getDate().getMonth()+1)+"-"+measure.getDate().getYear()+" "+measure.getDate().getHours()+":"+measure.getDate().getMinutes();
+			DateTime dt = new DateTime(measure.getDate());
+			String date = dt.getDayOfMonth()+"-"+dt.getMonthOfYear()+"-"+dt.getYear()+" "+dt.getHourOfDay()+":"+dt.getMinuteOfHour();
 			preparedStatement.setString(3, date);
-			
+
 			preparedStatement.setInt(4, measure.getState());
 			
 			preparedStatement.setFloat(5, measure.getEnergyValue());
@@ -43,7 +45,7 @@ public class MeasureDaoImpl implements MeasureDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			fermetureSilencieuse(preparedStatement);
+			fermeturesSilencieuses(preparedStatement,connect);
 		}
 	}
 

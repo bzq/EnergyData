@@ -72,7 +72,6 @@ public class DataLoaderFileImpl  implements DataLoader{
 		}  
 	}
 
-
 	/**
 	 * @param date String
 	 * @param time String
@@ -174,7 +173,6 @@ public class DataLoaderFileImpl  implements DataLoader{
 		
 	}
 
-
 	public static void main(String args[]){
 
 		System.out.println("Debut du programme");
@@ -187,7 +185,6 @@ public class DataLoaderFileImpl  implements DataLoader{
 		System.out.println("Programme termine");
 
 	}
-
 
 	public List<Measure> getMeasures() {
 		return listMeasures;
