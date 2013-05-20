@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 
@@ -19,6 +21,8 @@ public class DAOFactory {
     private String              url;
     private String              username;
     private String              password;
+    
+    private Connection connect = null;
  
     DAOFactory( String url, String username, String password ) {
         this.url = url;
@@ -65,9 +69,16 @@ public class DAOFactory {
     }
  
     /* Méthode chargée de fournir une connexion à la base de données */
-     /* package */ Connection getConnection() throws SQLException {
-        return DriverManager.getConnection( url, username, password );
+     /* package */ 
+    Connection getConnection() throws SQLException {
+    	if(this.connect==null){
+        this.connect =  DriverManager.getConnection( url, username, password );
+    	}
+
+		return this.connect;	
     }
+     
+
  
     /*
      * Méthodes de récupération de l'implémentation des différents DAO (un seul

@@ -12,9 +12,9 @@ public class Factory {
 		return appliance;
 	}
 	
-	public static HouseHold createHouseHold(String houseName){
+	public static HouseHold createHouseHold(int houseId){
 		HouseHold houseHold = new HouseHold();
-		houseHold.setHouseName(houseName);
+		houseHold.setIdHouseHold(houseId);
 		
 		return houseHold;
 	}

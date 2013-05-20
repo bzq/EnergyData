@@ -29,7 +29,7 @@ public class HouseHoldDaoImplTest {
 
 	@Test
 	public void testCreate() {
-		HouseHold household = Factory.createHouseHold("30003925");
+		HouseHold household = Factory.createHouseHold(30003925);
 
 
 		HouseHold tmp = householdDao.create(household);

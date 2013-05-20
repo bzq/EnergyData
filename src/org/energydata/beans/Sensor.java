@@ -128,6 +128,6 @@ public class Sensor {
 		return "Sensor [identifySensor=" + identifySensor
 				+ ", descriptionSensor=" + descriptionSensor + ", location="
 				+ location + ", appliance=" + appliance + ", houseHold="
-				+ houseHold + ", listOfMeasure=" + listOfMeasure + "]";
+				+ houseHold + ", listOfMeasure=" + "]";
 	}
 }

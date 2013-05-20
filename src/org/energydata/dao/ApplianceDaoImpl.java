@@ -1,12 +1,16 @@
 package org.energydata.dao;
 
+import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import static org.energydata.dao.DAOUtilities.*;
 
 import org.energydata.beans.Appliance;
+import org.energydata.beans.Factory;
 
 public class ApplianceDaoImpl implements ApplianceDao {
 	
@@ -18,8 +22,6 @@ public class ApplianceDaoImpl implements ApplianceDao {
 
 	@Override
 	public Appliance create(Appliance appliance) {
-		System.out.println("Appliance DAO: ");
-		System.out.println(appliance.toString());
 		Appliance tmp = this.find(appliance);
 		
 		if(tmp!=null && tmp.getIdAppliance()!=-1){
@@ -28,8 +30,13 @@ public class ApplianceDaoImpl implements ApplianceDao {
 		}
 		else
 		{	
+			Connection connect = null;
+			PreparedStatement preparedStatement = null;
+			ResultSet rs = null;
+			
 		try {
-			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO  Appliance ( applianceName,applianceUnit) VALUES (?,?)");
+			connect = daoFactory.getConnection();
+			preparedStatement = connect.prepareStatement("INSERT INTO  Appliance ( applianceName,applianceUnit) VALUES (?,?)");
 			
 			preparedStatement.setString(1, appliance.getApplianceName());
 			
@@ -42,7 +49,7 @@ public class ApplianceDaoImpl implements ApplianceDao {
 							.prepareStatement(
 									"SELECT max(idAppliance) from Appliance");
 
-					ResultSet rs = preparedStatement.executeQuery();
+					rs = preparedStatement.executeQuery();
 					rs.next();
 
 					// ResultSet rs = preparedStatement.getGeneratedKeys();
@@ -52,22 +59,30 @@ public class ApplianceDaoImpl implements ApplianceDao {
 			{
 				appliance.setIdAppliance(-1);				
 			}
-
+			
 			System.out.println("Resultat de l'insertion DAO Appliance: "+status);
-			return appliance;
+			preparedStatement.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+		}finally{
+			fermeturesSilencieuses(rs,preparedStatement);
 		}
+		return appliance;
 		}
 	}
 
 	@Override
 	public Appliance find(Appliance appliance) {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		Appliance newAppliance = null;
 		
 		try {
-			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("SELECT idAppliance, applianceName , applianceUnit FROM Appliance WHERE applianceName = ? AND applianceUnit= ? ");
+			connect = daoFactory.getConnection();
+			preparedStatement = connect.prepareStatement("SELECT idAppliance, applianceName , applianceUnit FROM Appliance WHERE applianceName = ? AND applianceUnit= ? ");
 			
 	
 			preparedStatement.setString(1, appliance.getApplianceName());
@@ -75,29 +90,23 @@ public class ApplianceDaoImpl implements ApplianceDao {
 			preparedStatement.setString(2, appliance.getApplianceUnit());
 
 			// execute select SQL stetement
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			
 			if (rs.next()) {
 				
+				newAppliance = appliance;
 				int idAppliance = rs.getInt("idAppliance");
-				appliance.setIdAppliance(idAppliance);
-				               
-				 
+				newAppliance.setIdAppliance(idAppliance);
 			}
-			else
-			{
-				appliance.setIdAppliance(-1);
-				
-			}	
-			
-			System.out.println("Resultat de la selection DAO Appliance: "+ appliance.toString());
-			return appliance;  
-		
+			preparedStatement.close();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+		}finally{
+			fermeturesSilencieuses(rs,preparedStatement);
 		}
+		return newAppliance; 
 	
 			
 	}

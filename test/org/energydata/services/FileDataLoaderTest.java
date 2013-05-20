@@ -113,7 +113,7 @@ public class FileDataLoaderTest {
 		}
 
 		File file= new File("junitTestFileTemp.txt");
-		DataLoader fileData= new FileDataLoader(file);
+		DataLoader fileData= new DataLoaderFileImpl(file);
 		Date d1=null,d2=null;
 		try {
 			d1 = new SimpleDateFormat("dd/MM/yy HH:mm").parse("22/01/98 13:40");

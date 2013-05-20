@@ -1,10 +1,12 @@
 package org.energydata.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.energydata.beans.Sensor;
+import static org.energydata.dao.DAOUtilities.*;
 
 public class SensorDaoImpl implements SensorDao {
 	
@@ -16,10 +18,11 @@ public class SensorDaoImpl implements SensorDao {
 
 	@Override
 	public void create(Sensor sensor) {
-		System.out.println("Sensor DAO: ");
-		System.out.println(sensor.toString());
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
 		try {
-			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO  Sensor (descriptionSensor,location,idHouseHold,idAppliance) VALUES (?,?,?,?)");
+			connect = daoFactory.getConnection();
+			preparedStatement = connect.prepareStatement("INSERT INTO  Sensor (descriptionSensor,location,idHouseHold,idAppliance, idSensor) VALUES (?,?,?,?,?)");
 			
 			preparedStatement.setString(1, sensor.getDescriptionSensor());
 			
@@ -29,14 +32,16 @@ public class SensorDaoImpl implements SensorDao {
 			
 			preparedStatement.setInt(4, sensor.getAppliance().getIdAppliance());
 			
-
+			preparedStatement.setInt(5, sensor.getIdentifySensor());
 			
 			int status = preparedStatement.executeUpdate();
-		
-			System.out.println("Resultat de l'insertion DAO Appliance: "+status);
+			
+			preparedStatement.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			fermetureSilencieuse(preparedStatement);
 		}
 		
 		

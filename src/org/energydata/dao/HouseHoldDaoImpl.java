@@ -1,10 +1,14 @@
 package org.energydata.dao;
 
 import java.sql.PreparedStatement;
+
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.energydata.beans.HouseHold;
+import static org.energydata.dao.DAOUtilities.*;
+
 
 public class HouseHoldDaoImpl implements HouseHoldDao {
 	
@@ -16,107 +20,57 @@ public class HouseHoldDaoImpl implements HouseHoldDao {
 
 	@Override
 	public HouseHold create(HouseHold household) {
-		System.out.println("HouseHold DAO: ");
-		System.out.println(household.toString());
-		
 		HouseHold tmp =this.find(household);
-		
-		if(tmp!=null && tmp.getIdHouseHold()!= -1){
-			
+
+		if(tmp==null){
+			Connection connect = null;
+			PreparedStatement preparedStatement = null;
+			try {			
+				connect = daoFactory.getConnection();
+				preparedStatement = connect.prepareStatement("INSERT INTO HouseHold (idHouseHold) VALUES (?)");
+				preparedStatement.setInt(1, household.getIdHouseHold());
+				int status = preparedStatement.executeUpdate();
+
+				System.out.println("Resultat de l'insertion DAO HouseHold: "+status);
+				preparedStatement.close();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				fermetureSilencieuse(preparedStatement);
+			}
+			return household;
+
+		}
+		else{
 			return tmp;
 		}
-		else
-		{
-		try {
-			
-			/*
-	
-			    OraclePreparedStatement pstmt =(OraclePreparedStatement)conn.prepareStatement(vsql);  
-			    pstmt.registerReturnParameter(1, Types.BIGINT);  
-			    pstmt.executeUpdate();  
-			    ResultSet rs=pstmt.getReturnResultSet();  
-			    rs.next();  
-			    int id=rs.getInt(1);  
-			    rs.close();  
-			    pstmt.close();  
-			    System.out.print("id:"+id);  
-			    return id;  
-				*/
-			
-			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("INSERT INTO HouseHold (houseHoldName) VALUES (?)");
-			
-			preparedStatement.setString(1, household.getHouseName());
-			
-			
-			int status = preparedStatement.executeUpdate();
-			if(status==1){
-				preparedStatement = daoFactory.getConnection().prepareStatement("SELECT max(idHouseHold) from HouseHold");
-				
-				ResultSet rs =preparedStatement.executeQuery();
-				rs.next();
-						
-				//ResultSet rs = preparedStatement.getGeneratedKeys();
-				household.setIdHouseHold(rs.getInt(1)); 
-
-				}
-				else
-				{
-					household.setIdHouseHold(-1);
-									
-				}
-
-			
-			//int status = preparedStatement.executeUpdate();
-
-			//ResultSet rs = preparedStatement.getGeneratedKeys();
-			//household.setIdHouseHold(rs.getInt(1)); 
-			System.out.println("Resultat de l'insertion DAO HouseHold: "+status);
-			return household;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-		}
-		
-		
-	
-		
 	}
 
 	@Override
 	public HouseHold find(HouseHold household) {
-		try {
-			PreparedStatement preparedStatement = daoFactory.getConnection().prepareStatement("SELECT idHouseHold, houseHoldName  FROM HouseHold WHERE houseHoldName = ? ");
-			
-
-	
-			preparedStatement.setString(1, household.getHouseName());
-			
-
-
-			// execute select SQL stetement
-			ResultSet rs = preparedStatement.executeQuery();
-			
-			if (rs.next()) {
-				
-				int idHouseHold = rs.getInt("idHouseHold");
-				household.setIdHouseHold(idHouseHold);     
-				 
-			}
-			else
-			{
-			    household.setIdHouseHold(-1);				
-			}	
-			
-			System.out.println("Resultat de la selection DAO HouseHold: "+ household.toString());
-			return household;  
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		HouseHold newHousehold = null;
 		
+		try {
+			connect =  daoFactory.getConnection();
+			preparedStatement = connect.prepareStatement("SELECT idHouseHold  FROM HouseHold WHERE idHouseHold = ? ");		
+			preparedStatement.setInt(1, household.getIdHouseHold());
+			rs = preparedStatement.executeQuery();	
+			if (rs.next()) {
+				newHousehold = household;
+			}
+			preparedStatement.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+		}finally{
+			fermeturesSilencieuses(rs,preparedStatement);
 		}
+		return newHousehold;
 	
 		
 	}
