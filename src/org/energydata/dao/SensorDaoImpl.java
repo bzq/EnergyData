@@ -35,7 +35,7 @@ public class SensorDaoImpl implements SensorDao {
 			preparedStatement.setInt(5, sensor.getIdentifySensor());
 			
 			int status = preparedStatement.executeUpdate();
-			
+			connect.commit();
 			preparedStatement.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

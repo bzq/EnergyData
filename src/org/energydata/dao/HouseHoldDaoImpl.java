@@ -30,7 +30,7 @@ public class HouseHoldDaoImpl implements HouseHoldDao {
 				preparedStatement = connect.prepareStatement("INSERT INTO HouseHold (idHouseHold) VALUES (?)");
 				preparedStatement.setInt(1, household.getIdHouseHold());
 				int status = preparedStatement.executeUpdate();
-
+				connect.commit();
 				System.out.println("Resultat de l'insertion DAO HouseHold: "+status);
 				preparedStatement.close();
 				

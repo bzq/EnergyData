@@ -2,6 +2,7 @@ package org.energydata.dao;
 
 
 import java.util.Date;
+import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,6 +50,45 @@ public class MeasureDaoImpl implements MeasureDao {
 		}finally{
 			fermeturesSilencieuses(preparedStatement,connect);
 		}
+	}
+	
+	
+	public void createList(List<Measure> measureList){
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connect = daoFactory.getConnection();
+			preparedStatement = connect.prepareStatement("INSERT INTO  Measure ( idSensor, idHouseHold ,dateMeasure,state,energyValue) VALUES (?,?,TO_DATE(?,'DD-MM-YYYY HH24:MI'),?,?)");
+			
+			
+			for(Measure measure : measureList){
+				preparedStatement.setInt(1, measure.getSensor().getIdentifySensor());
+				
+				preparedStatement.setInt(2, measure.getSensor().getHouseHold().getIdHouseHold());
+				DateTime dt = new DateTime(measure.getDate());
+				String date = dt.getDayOfMonth()+"-"+dt.getMonthOfYear()+"-"+dt.getYear()+" "+dt.getHourOfDay()+":"+dt.getMinuteOfHour();
+				preparedStatement.setString(3, date);
+
+				preparedStatement.setInt(4, measure.getState());
+				
+				preparedStatement.setFloat(5, measure.getEnergyValue());
+				preparedStatement.addBatch();
+				
+			}
+			
+			int[] status = preparedStatement.executeBatch();
+
+			connect.commit();
+			
+			preparedStatement.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			fermeturesSilencieuses(preparedStatement,connect);
+		}
+		
+		
 	}
 
 	@Override
