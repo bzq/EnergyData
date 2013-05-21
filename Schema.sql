@@ -1,13 +1,13 @@
-Drop table HouseHold;
+Drop table HouseHold  cascade constraints;
 
-Drop table Appliance;
+Drop table Appliance  cascade constraints;
 DROP SEQUENCE appliance_Seq;  
 
-Drop table Measure;
+Drop table Measure  cascade constraints;
 
 Drop SEQUENCE measure_Seq;
 
-Drop table Sensor;
+Drop table Sensor cascade constraints;
 
 Drop SEQUENCE sensor_Seq;
  
@@ -48,11 +48,26 @@ CREATE  TABLE Sensor (
   location VARCHAR(45) NULL ,
   idHouseHold INT NOT NULL ,
   idAppliance INT NOT NULL ,
-  PRIMARY KEY (idSensor));
-  --CONSTRAINT fk_Sensor_HouseHold FOREIGN KEY (idHouseHold ) REFERENCES HouseHold (idHouseHold ),
-  --CONSTRAINT fk_Sensor_Appliance1 FOREIGN KEY (idAppliance ) REFERENCES Appliance (idAppliance ));
+  PRIMARY KEY (idSensor),
+  CONSTRAINT fk_Sensor_HouseHold FOREIGN KEY (idHouseHold ) REFERENCES HouseHold (idHouseHold ),
+  CONSTRAINT fk_Sensor_Appliance1 FOREIGN KEY (idAppliance ) REFERENCES Appliance (idAppliance ));
   
-CREATE SEQUENCE sensor_Seq;
+CREATE SEQUENCE sensor_Seq
+INCREMENT BY 1    
+     START WITH 1     
+     NOMAXVALUE       
+     NOCYCLE           
+     CACHE 10; 
+
+CREATE OR REPLACE TRIGGER sensor_Trigg BEFORE
+
+INSERT ON Sensor FOR EACH ROW
+BEGIN
+SELECT sensor_Seq.nextval INTO:New.idSensor FROM dual;	
+	
+END;
+/
+     
 
 CREATE  TABLE Measure (
   idSensor INT NOT NULL ,
@@ -60,7 +75,7 @@ CREATE  TABLE Measure (
   dateMeasure date NOT NULL,
   state INT NOT NULL ,
   energyValue INT NOT NULL ,
-  PRIMARY KEY (idSensor, dateMeasure));
-  --CONSTRAINT fk_Measure_Sensor1 FOREIGN KEY (idSensor ) REFERENCES Sensor (idSensor ));
+  PRIMARY KEY (idSensor, dateMeasure),
+  CONSTRAINT fk_Measure_Sensor1 FOREIGN KEY (idSensor ) REFERENCES Sensor (idSensor ));
   
   CREATE SEQUENCE measure_Seq;

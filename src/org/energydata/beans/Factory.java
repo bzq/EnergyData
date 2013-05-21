@@ -19,16 +19,18 @@ public class Factory {
 		return houseHold;
 	}
 	
-	public static Measure createMeasure(Date date, long energyValue, int state, Sensor sensor){
+	public static Measure createMeasure(Date date, long energyValue, int state){
 		Measure measure = new Measure();
 		measure.setDate(date);
 		measure.setEnergyValue(energyValue);
 		measure.setState(state);
+		/*
 		// If a supprimer quand le sensor sera crée
 		if(sensor!=null){
 			measure.setSensor(sensor);
 			sensor.addMeasure(measure);
 		}
+		*/
 		return measure;
 	}
 	

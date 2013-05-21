@@ -20,6 +20,7 @@ public class SensorDaoImpl implements SensorDao {
 	public void create(Sensor sensor) {
 		Connection connect = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		try {
 			connect = daoFactory.getConnection();
 			preparedStatement = connect.prepareStatement("INSERT INTO  Sensor (descriptionSensor,location,idHouseHold,idAppliance, idSensor) VALUES (?,?,?,?,?)");
@@ -35,7 +36,25 @@ public class SensorDaoImpl implements SensorDao {
 			preparedStatement.setInt(5, sensor.getIdentifySensor());
 			
 			int status = preparedStatement.executeUpdate();
-			connect.commit();
+			if(status==1){
+			    connect.commit();
+				preparedStatement = daoFactory.getConnection()
+						.prepareStatement(
+								"SELECT max(idSensor) from Sensor");
+
+				rs = preparedStatement.executeQuery();
+				rs.next();
+
+				// ResultSet rs = preparedStatement.getGeneratedKeys();
+				sensor.setIdentifySensor(rs.getInt(1));
+				
+		}
+		else
+		{
+			sensor.setIdentifySensor(-1);
+							
+		}
+			
 			preparedStatement.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
