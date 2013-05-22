@@ -45,7 +45,6 @@ public class ApplianceDaoImpl implements ApplianceDao {
 			
 			int status = preparedStatement.executeUpdate();
 			if(status==1){
-				    connect.commit();
 					preparedStatement = daoFactory.getConnection()
 							.prepareStatement(
 									"SELECT max(idAppliance) from Appliance");
@@ -55,7 +54,6 @@ public class ApplianceDaoImpl implements ApplianceDao {
 
 					// ResultSet rs = preparedStatement.getGeneratedKeys();
 					appliance.setIdAppliance(rs.getInt(1));
-					
 			}
 			else
 			{
@@ -63,7 +61,6 @@ public class ApplianceDaoImpl implements ApplianceDao {
 			}
 			
 			System.out.println("Resultat de l'insertion DAO Appliance: "+status);
-			preparedStatement.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -100,7 +97,6 @@ public class ApplianceDaoImpl implements ApplianceDao {
 				int idAppliance = rs.getInt("idAppliance");
 				newAppliance.setIdAppliance(idAppliance);
 			}
-			preparedStatement.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

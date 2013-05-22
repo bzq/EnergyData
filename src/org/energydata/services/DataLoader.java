@@ -9,6 +9,5 @@ import org.energydata.beans.Sensor;
 public interface DataLoader {
     
     public List<Measure> getMeasures();
-    public Sensor  getSensor();
 
 }

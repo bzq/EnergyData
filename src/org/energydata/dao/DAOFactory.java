@@ -21,8 +21,6 @@ public class DAOFactory {
     private String              url;
     private String              username;
     private String              password;
-    
-    private Connection connect = null;
  
     DAOFactory( String url, String username, String password ) {
         this.url = url;
@@ -71,11 +69,7 @@ public class DAOFactory {
     /* Méthode chargée de fournir une connexion à la base de données */
      /* package */ 
     Connection getConnection() throws SQLException {
-    	if(this.connect==null){
-        this.connect =  DriverManager.getConnection( url, username, password );
-    	}
-
-		return this.connect;	
+        return DriverManager.getConnection( url, username, password );
     }
      
 
