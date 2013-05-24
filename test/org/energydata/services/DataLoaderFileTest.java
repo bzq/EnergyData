@@ -21,7 +21,7 @@ import org.energydata.beans.Sensor;
 import org.junit.*;
 
 
-public class FileDataLoaderTest {
+public class DataLoaderFileTest {
 
 	@Before
 	public void setUp() throws Exception {
