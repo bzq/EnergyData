@@ -11,6 +11,16 @@ import java.util.LinkedList;
  */
 public class Appliance {
 	
+	/**
+	 * @param anObject
+	 * @return
+	 * @see java.lang.String#equals(java.lang.Object)
+	 */
+	public boolean equals(Appliance appliance) {
+		return applianceName.equals(appliance.getApplianceName()) && idAppliance == appliance.getIdAppliance();
+	}
+
+
 	private int idAppliance;
 
 	private String applianceName;
@@ -29,15 +39,6 @@ public class Appliance {
 
 	public void add(Sensor sensor) {
 		this.listOfSensor.add(sensor);
-	}
-
-	/**
-	 * @param o
-	 * @return
-	 * @see java.util.AbstractList#equals(java.lang.Object)
-	 */
-	public boolean equals(Sensor sensor) {
-		return listOfSensor.equals(sensor);
 	}
 
 	/**

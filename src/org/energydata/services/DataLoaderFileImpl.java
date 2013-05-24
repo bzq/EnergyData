@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,7 @@ import org.energydata.dao.HouseHoldDao;
 import org.energydata.dao.MeasureDao;
 import org.energydata.dao.MeasureDaoImpl;
 import org.energydata.dao.SensorDao;
+import org.joda.time.DateTime;
 
 
 
@@ -48,28 +50,29 @@ public class DataLoaderFileImpl  implements DataLoader{
 	public DataLoaderFileImpl(File file){
 		listMeasures = new ArrayList<Measure>();
 		FileReader fr=null;
-
-		try {
-			fr = new FileReader(file);
-			daoFactory = DAOFactory.getInstance();
-			BufferedReader br=new BufferedReader(fr);
-			String line ="";
-
-			while ((line=br.readLine())!=null) {				
-				int returnValue = this.processLine(line);
-			}
-			br.close();
-			fr.close();
-
-		} catch (IOException ex) {
-			Logger.getLogger(DataLoaderFileImpl.class.getName()).log(Level.SEVERE, null, ex);
-		} finally {
+		if(file != null){
 			try {
+				fr = new FileReader(file);
+				daoFactory = DAOFactory.getInstance();
+				BufferedReader br=new BufferedReader(fr);
+				String line ="";
+	
+				while ((line=br.readLine())!=null) {				
+					int returnValue = this.processLine(line);
+				}
+				br.close();
 				fr.close();
+	
 			} catch (IOException ex) {
 				Logger.getLogger(DataLoaderFileImpl.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}  
+			} finally {
+				try {
+					fr.close();
+				} catch (IOException ex) {
+					Logger.getLogger(DataLoaderFileImpl.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			} 
+		}
 	}
 
 	/**
@@ -157,6 +160,7 @@ public class DataLoaderFileImpl  implements DataLoader{
 				long energyValue = Long.parseLong(data[3]);
 				int state = Integer.parseInt(data[2]);
 				mesure= Factory.createMeasure(dateMeasure, energyValue, state, sensor);
+//				System.out.println(mesure.toString());
 				this.add(mesure);
 			}
 			else if(header[0].trim().equals("HOUSEHOLD")){
@@ -172,6 +176,50 @@ public class DataLoaderFileImpl  implements DataLoader{
 		return 0;
 		
 	}
+	
+	public List<Measure> getMeasures() {
+		return listMeasures;
+	}
+
+	@Override
+	public Sensor getSensor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	 public void convertMeasureToDailyAverage(){
+	        List<Measure> newList = new ArrayList<Measure>();
+	        Date currentDate = listMeasures.get(0).getDate();
+	        float moyenne=0;
+	        int nb=0;
+	        Measure m;
+	        DateTime dt;
+	        Long moy;
+	        for(Measure measure : listMeasures){
+	            if(!measure.dayEquals(currentDate) || listMeasures.get(listMeasures.size()-1).equals(measure)){
+	                dt= new DateTime(currentDate);
+	                moy = (long)moyenne/nb;
+	               
+					try {
+						m = Factory.createMeasure(new SimpleDateFormat("dd/MM/yy").parse(dt.getDayOfMonth()+"/"+dt.getMonthOfYear()+"/"+dt.getYear()), moy, measure.getState(), measure.getSensor());
+//		                System.out.println("Date de la mesure: "+m.getDate()+" , valeur: "+m.getEnergyValue());
+		                newList.add(m);
+		                currentDate = measure.getDate();
+		                nb=1;
+		                moyenne= measure.getEnergyValue();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            }
+	            else{
+	                nb++;
+	                moyenne+=measure.getEnergyValue();
+	            }
+	        }
+	        listMeasures = newList;
+
+	}
 
 	public static void main(String args[]){
 
@@ -179,16 +227,15 @@ public class DataLoaderFileImpl  implements DataLoader{
 
 		String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
 		DataLoader dataLoader = new DataLoaderFileImpl(new File(dataSource));
-
-		DataStorage dataStorage = new DataStorageDBImpl();
-		dataStorage.save(dataLoader);
+		dataLoader.convertMeasureToDailyAverage();
+		//DataStorage dataStorage = new DataStorageDBImpl();
+		//dataStorage.save(dataLoader);
 		System.out.println("Programme termine");
 
 	}
+	
 
-	public List<Measure> getMeasures() {
-		return listMeasures;
-	}
+	
 
 	
 

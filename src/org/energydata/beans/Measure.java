@@ -1,9 +1,21 @@
 package org.energydata.beans;
 
 import java.util.Date;
+import java.util.Iterator;
+
+import org.joda.time.DateTime;
 
 public class Measure {
 
+
+	/**
+	 * @param obj
+	 * @return
+	 * @see java.util.Date#equals(java.lang.Object)
+	 */
+	public boolean equals(Measure measure) {
+		return date.equals(measure.getDate()) && sensor.equals(measure.getSensor());
+	}
 
 	private Date date;
 	private long energyValue;
@@ -84,5 +96,14 @@ public class Measure {
 		return "Measure [date=" + date + ", state=" + state + ", energyValue="
 				+ energyValue + "]";
 	}
+	
+
+    public boolean dayEquals(Date date){
+        DateTime dtRef = new DateTime(this.date);
+        DateTime dtCible = new DateTime(date);
+       
+        return dtRef.getDayOfMonth() == dtCible.getDayOfMonth() && dtRef.getMonthOfYear() == dtCible.getMonthOfYear() && dtRef.getYear() == dtCible.getYear();
+    }
+
 
 }

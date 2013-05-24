@@ -6,6 +6,15 @@ import java.util.ArrayList;
 
 public class HouseHold {
 	
+	/**
+	 * @param o
+	 * @return
+	 * @see java.util.AbstractList#equals(java.lang.Object)
+	 */
+	public boolean equals(HouseHold household) {
+		return idHouseHold == household.getIdHouseHold();
+	}
+
 	private int idHouseHold;
 
 	private ArrayList<Appliance> listOfAppliance;

@@ -4,6 +4,15 @@ import java.util.ArrayList;
 
 public class Sensor {
 
+	/**
+	 * @param sensor
+	 * @return
+	 * @see org.energydata.beans.Appliance#equals(org.energydata.beans.Sensor)
+	 */
+	public boolean equals(Sensor sensor) {
+		return appliance.equals(sensor.getAppliance()) && houseHold.equals(sensor.getHouseHold()) && identifySensor == sensor.getIdentifySensor();
+	}
+
 	private Appliance appliance;
 	private String descriptionSensor;
 	private HouseHold houseHold;
