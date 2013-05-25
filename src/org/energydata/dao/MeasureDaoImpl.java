@@ -73,7 +73,7 @@ public class MeasureDaoImpl implements MeasureDao {
 				preparedStatement.setString(3, date);
 
 				preparedStatement.setInt(4, measure.getState());
-				
+				System.out.println("date: "+date);
 				preparedStatement.setFloat(5, measure.getEnergyValue());
 				preparedStatement.addBatch();
 				

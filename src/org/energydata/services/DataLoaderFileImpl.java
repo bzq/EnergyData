@@ -65,17 +65,23 @@ public class DataLoaderFileImpl  implements DataLoader{
 	
 			} catch (IOException ex) {
 				Logger.getLogger(DataLoaderFileImpl.class.getName()).log(Level.SEVERE, null, ex);
-			} finally {
-				try {
-					fr.close();
-				} catch (IOException ex) {
-					Logger.getLogger(DataLoaderFileImpl.class.getName()).log(Level.SEVERE, null, ex);
-				}
 			} 
+//				finally {
+//				try {
+//					fr.close();
+//				} catch (IOException ex) {
+//					Logger.getLogger(DataLoaderFileImpl.class.getName()).log(Level.SEVERE, null, ex);
+//				}
+//			} 
 		}
 		
-
-		this.sensor.setListOfMeasure(listMeasures);
+		if(sensor != null){
+			this.sensor.setListOfMeasure(listMeasures);
+		}
+		else{
+			System.out.println("Le sensor n'a pas été correctement initialisé");
+			System.exit(0);
+		}
 	}
 
 	/**
@@ -151,7 +157,6 @@ public class DataLoaderFileImpl  implements DataLoader{
 	}
 	
 	private int processLine(String line){
-		
 		String[] split = line.split("\\n");
 
 		for(int i=0;i<split.length;i++){
@@ -224,6 +229,7 @@ public class DataLoaderFileImpl  implements DataLoader{
 	            }
 	        }
 	        listMeasures = newList;
+			this.sensor.setListOfMeasure(listMeasures);
 
 	}
 
@@ -231,9 +237,9 @@ public class DataLoaderFileImpl  implements DataLoader{
 
 		System.out.println("Debut du programme");
 
-		String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
+		String dataSource = "Data/RawData/1000080-2000903-3009929.txt";
 		DataLoader dataLoader = new DataLoaderFileImpl(new File(dataSource));
-		dataLoader.convertMeasureToDailyAverage();
+		//dataLoader.convertMeasureToDailyAverage();
 		DataStorage dataStorage = new DataStorageDBImpl();
 		dataStorage.save(dataLoader);
 		System.out.println("Programme termine");

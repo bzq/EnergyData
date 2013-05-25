@@ -1,6 +1,7 @@
 package org.energydata.beans;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Sensor {
 
@@ -17,7 +18,7 @@ public class Sensor {
 	private String descriptionSensor;
 	private HouseHold houseHold;
 	private int identifySensor;
-	private ArrayList<Measure> listOfMeasure;
+	private List<Measure> listOfMeasure;
 
 	private String location;
 
@@ -68,7 +69,7 @@ public class Sensor {
 		return identifySensor;
 	}
 
-	public ArrayList<Measure> getListOfMeasure() {
+	public List<Measure> getListOfMeasure() {
 		return listOfMeasure;
 	}
 
@@ -118,7 +119,7 @@ public class Sensor {
 		this.identifySensor = identifySensor;
 	}
 
-	public void setListOfMeasure(ArrayList<Measure> listOfMeasure) {
+	public void setListOfMeasure(List<Measure> listOfMeasure) {
 		this.listOfMeasure = listOfMeasure;
 	}
 

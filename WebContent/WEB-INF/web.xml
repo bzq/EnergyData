@@ -15,6 +15,14 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Servlet1</servlet-name>
-    <url-pattern>/test1</url-pattern>
+    <url-pattern>/getMeasures</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Accueil</servlet-name>
+    <servlet-class>org.energydata.servlets.Accueil</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Accueil</servlet-name>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 </web-app>
