@@ -14,7 +14,8 @@ public class Measure {
 	 * @see java.util.Date#equals(java.lang.Object)
 	 */
 	public boolean equals(Measure measure) {
-		return date.equals(measure.getDate()) && sensor.equals(measure.getSensor());
+		//return date.equals(measure.getDate()) && sensor.equals(measure.getSensor());
+		return date.equals(measure.getDate()) ;
 	}
 
 	private Date date;

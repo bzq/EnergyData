@@ -22,6 +22,8 @@ public class Sensor {
 	private String location;
 
 	
+	
+	
 	protected Sensor(){
 		listOfMeasure = new ArrayList<Measure>();
 	}

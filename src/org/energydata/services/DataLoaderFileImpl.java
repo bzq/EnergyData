@@ -41,7 +41,7 @@ public class DataLoaderFileImpl  implements DataLoader{
 	private Sensor sensor;
 	private HouseHold houseHold;
 	private Appliance appliance;
-	private List<Measure> listMeasures;
+	private ArrayList<Measure> listMeasures;
 	
 	private boolean add(Measure e) {
 		return listMeasures.add(e);
@@ -73,6 +73,9 @@ public class DataLoaderFileImpl  implements DataLoader{
 				}
 			} 
 		}
+		
+
+		this.sensor.setListOfMeasure(listMeasures);
 	}
 
 	/**
@@ -159,7 +162,9 @@ public class DataLoaderFileImpl  implements DataLoader{
 				Date dateMeasure = this.convertStringToDate(data[0], data[1]);
 				long energyValue = Long.parseLong(data[3]);
 				int state = Integer.parseInt(data[2]);
-				mesure= Factory.createMeasure(dateMeasure, energyValue, state, sensor);
+			//	mesure= Factory.createMeasure(dateMeasure, energyValue, state, sensor);
+				mesure= Factory.createMeasure(dateMeasure, energyValue, state);
+				
 //				System.out.println(mesure.toString());
 				this.add(mesure);
 			}
@@ -184,11 +189,11 @@ public class DataLoaderFileImpl  implements DataLoader{
 	@Override
 	public Sensor getSensor() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.sensor;
 	}
 	
 	 public void convertMeasureToDailyAverage(){
-	        List<Measure> newList = new ArrayList<Measure>();
+	        ArrayList<Measure> newList = new ArrayList<Measure>();
 	        Date currentDate = listMeasures.get(0).getDate();
 	        float moyenne=0;
 	        int nb=0;
@@ -201,8 +206,9 @@ public class DataLoaderFileImpl  implements DataLoader{
 	                moy = (long)moyenne/nb;
 	               
 					try {
-						m = Factory.createMeasure(new SimpleDateFormat("dd/MM/yy").parse(dt.getDayOfMonth()+"/"+dt.getMonthOfYear()+"/"+dt.getYear()), moy, measure.getState(), measure.getSensor());
-//		                System.out.println("Date de la mesure: "+m.getDate()+" , valeur: "+m.getEnergyValue());
+						//m = Factory.createMeasure(new SimpleDateFormat("dd/MM/yy").parse(dt.getDayOfMonth()+"/"+dt.getMonthOfYear()+"/"+dt.getYear()), moy, measure.getState(), measure.getSensor());
+						m = Factory.createMeasure(new SimpleDateFormat("dd/MM/yy").parse(dt.getDayOfMonth()+"/"+dt.getMonthOfYear()+"/"+dt.getYear()), moy, measure.getState());
+						//		                System.out.println("Date de la mesure: "+m.getDate()+" , valeur: "+m.getEnergyValue());
 		                newList.add(m);
 		                currentDate = measure.getDate();
 		                nb=1;
@@ -228,8 +234,8 @@ public class DataLoaderFileImpl  implements DataLoader{
 		String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
 		DataLoader dataLoader = new DataLoaderFileImpl(new File(dataSource));
 		dataLoader.convertMeasureToDailyAverage();
-		//DataStorage dataStorage = new DataStorageDBImpl();
-		//dataStorage.save(dataLoader);
+		DataStorage dataStorage = new DataStorageDBImpl();
+		dataStorage.save(dataLoader);
 		System.out.println("Programme termine");
 
 	}
