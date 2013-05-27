@@ -13,9 +13,9 @@ import org.energydata.beans.HouseHold;
 import org.energydata.services.DataLoader;
 import org.energydata.services.DataLoaderFileImpl;
 
-public class Accueil extends HttpServlet {
+public class FenetreGlissante extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
-    	this.getServletContext().getRequestDispatcher( "/WEB-INF/accueil.jsp" ).forward( request, response );
+    	this.getServletContext().getRequestDispatcher( "/WEB-INF/dateSelectorMeasure.jsp" ).forward( request, response );
     }
 
 }

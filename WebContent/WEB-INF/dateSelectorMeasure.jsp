@@ -92,15 +92,33 @@ body {
 
 				<div class="row-fluid">
 					<div class="span12">
-						<ul>
-							<%--            <li>Maison: ${ household.idHouseHold }</li> --%>
-							<c:forEach items="${listMeasures}" var="measure"
-								varStatus="status">
-								<li>Date:<c:out value="${measure['date']}" /> ,Valeur: <c:out
-										value="${measure['energyValue']}" /></li>
-							</c:forEach>
 
-						</ul>
+						<form class="well">
+							<fieldset>
+								<legend>Plage sur laquelle les mesures seront recupérées</legend>
+								<br /> <label for="datepicker1">
+								 	<div class="span3"><input type="text" value="01/01/1998" id="datepicker1"/></div>
+								</label>
+								<label for="datepicker2">
+								 	<div class="span3"><input type="text" value="01/01/1998" id="datepicker2"/></div>
+								</label>
+								<button type="submit">Envoyer</button>
+							</fieldset>
+						</form>
+
+						
+					
+							
+						<script type="text/javascript">
+						  $(function() {
+							$("#datepicker1").datepicker('minDate : 3');
+						    $('#datepicker2').datepicker({
+						    	minDate: '1998-01-23',
+						    	maxDate: '1999-02-04'
+						    });
+
+						  });
+						</script>
 					</div>
 				</div>
 				<!--/row-->
