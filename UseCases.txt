@@ -1,0 +1,14 @@
+-Maison (Household) qui consomme le plus (somme de tous les capteurs (sensor))
+-Maison (Household) qui consomme le moins (somme de tous les capteurs (sensor))
+
+-Equipement (Appliance) qui consomme le plus (en moyenne la plus élevée de tous les capteurs de chaque appliance) (indépendant de household)
+-Equipement (Appliance) qui consomme le moins (en moyenne la plus faible de tous les capteurs de chaque appliance) (indépendant de household)
+
+-Jour où la consommation totale est la plus importante
+-Année durant laquelle la consommation à été la plus importante (pas très pertinent pour le moment, mais après on aura 10 ans de données)
+
+-Maison (Household) qui ont diminuée leur consommation sur les 10 ans
+
+-Maison (Household) pour qui la consommation à le plus augmenté
+
+NB: Pour chacune des requêtes, possibilités de mettre une plage de temps (date début, date fin)
