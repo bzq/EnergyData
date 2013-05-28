@@ -71,7 +71,6 @@ END;
 
 CREATE  TABLE Measure (
   idSensor INT NOT NULL ,
-  idHouseHold INT NOT NULL,
   dateMeasure date NOT NULL,
   state INT NOT NULL ,
   energyValue INT NOT NULL ,

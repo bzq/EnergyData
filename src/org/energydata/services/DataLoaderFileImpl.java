@@ -238,6 +238,7 @@ public class DataLoaderFileImpl  implements DataLoader{
 		System.out.println("Debut du programme");
 
 		String dataSource = "Data/RawData/1000080-2000903-3009929.txt";
+		//String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
 		DataLoader dataLoader = new DataLoaderFileImpl(new File(dataSource));
 		//dataLoader.convertMeasureToDailyAverage();
 		DataStorage dataStorage = new DataStorageDBImpl();

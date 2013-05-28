@@ -59,7 +59,8 @@ public class MeasureDaoImpl implements MeasureDao {
 		PreparedStatement preparedStatement = null;
 		try {
 			connect = daoFactory.getConnection();
-			preparedStatement = connect.prepareStatement("INSERT INTO  Measure ( idSensor, idHouseHold ,dateMeasure,state,energyValue) VALUES (?,?,to_date(?,'dd-mm-yyyy hh24:mi'),?,?)");
+			//preparedStatement = connect.prepareStatement("INSERT INTO  Measure ( idSensor, idHouseHold ,dateMeasure,state,energyValue) VALUES (?,?,to_date(?,'dd-mm-yyyy hh24:mi'),?,?)");
+			preparedStatement = connect.prepareStatement("INSERT INTO  Measure ( idSensor, dateMeasure,state,energyValue) VALUES (?,to_date(?,'dd-mm-yyyy hh24:mi'),?,?)");
 			
 			
 			for(Measure measure : measureList){
@@ -67,14 +68,14 @@ public class MeasureDaoImpl implements MeasureDao {
 				preparedStatement.setInt(1, sensor.getIdentifySensor());
 				
 				//preparedStatement.setInt(2, measure.getSensor().getHouseHold().getIdHouseHold());
-				preparedStatement.setInt(2, sensor.getHouseHold().getIdHouseHold());
+				//preparedStatement.setInt(2, sensor.getHouseHold().getIdHouseHold());
 				DateTime dt = new DateTime(measure.getDate());
 				String date = dt.getDayOfMonth()+"-"+dt.getMonthOfYear()+"-"+dt.getYear()+" "+dt.getHourOfDay()+":"+dt.getMinuteOfHour();
-				preparedStatement.setString(3, date);
+				preparedStatement.setString(2, date);
 
-				preparedStatement.setInt(4, measure.getState());
+				preparedStatement.setInt(3, measure.getState());
 				System.out.println("date: "+date);
-				preparedStatement.setFloat(5, measure.getEnergyValue());
+				preparedStatement.setFloat(4, measure.getEnergyValue());
 				preparedStatement.addBatch();
 				
 			}

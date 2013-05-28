@@ -54,6 +54,7 @@ public class ApplianceDaoImpl implements ApplianceDao {
 
 					// ResultSet rs = preparedStatement.getGeneratedKeys();
 					appliance.setIdAppliance(rs.getInt(1));
+					connect.commit();
 			}
 			else
 			{
