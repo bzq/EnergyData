@@ -73,6 +73,12 @@
               <li class="active"><a href="index">Accueil</a></li>
               <li><a href="getMeasures">Toutes les mesures</a></li>
               <li><a href="dateMeasure">Fenetre glissante</a></li>
+              <li><a href="totalConsumptionHousehold">Total par maison</a></li>
+              <li><a href="totalConsumptionAppliance">Total par équipement</a></li>  
+              <li><a href="maxConsumptionHousehold">Maison énergivore</a></li>  
+              <li><a href="maxConsumptionAppliance">Equipement énergivore</a></li>  
+              <li><a href="minConsumptionHousehold">Maison économe</a></li>  
+              <li><a href="minConsumptionAppliance">Equipement économe</a></li>  
               <li><a href="#">Link</a></li>
             </ul>
           </div><!--/.well -->

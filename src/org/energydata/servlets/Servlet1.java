@@ -17,7 +17,7 @@ public class Servlet1 extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 
 
-		String dataSource = "C:/Users/RCCM3353/Documents/Documents/Workspace/EnergyDataWeb/Data/RawData/1000080-2000903-3009929.txt";
+		String dataSource = "C:/Users/Miage/Documents/Workspace/EnergyDataWeb/Data/RawData/1000080-2000903-3009929.txt";
 		File f = new File(dataSource);
 		DataLoader dataLoader = new DataLoaderFileImpl(f);
 		dataLoader.convertMeasureToDailyAverage();   	

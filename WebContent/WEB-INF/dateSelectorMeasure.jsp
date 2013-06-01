@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- Le styles -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css" />
@@ -33,9 +33,15 @@ body {
 }
 </style>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap-datepicker.js"></script>
-	
+<script type="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"
+	type="text/javascript"></script>
+
 <link
 	href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap-responsive.css"
 	rel="stylesheet">
@@ -44,6 +50,22 @@ body {
 <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
+
+<script>
+	$(function() {
+		$(".datepicker").datepicker();
+		$(".datepicker").datepicker("option", "regional", "fr");
+		$(".datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
+		$(".datepicker").datepicker("option", "minDate",
+				new Date(1998, 1 - 1, 23));
+		$(".datepicker").datepicker("option", "maxDate",
+				new Date(1999, 2 - 1, 4));
+		$("#startDate").datepicker("option", "defaultDate",
+				new Date(1998, 1 - 1, 23));
+		$("#endDate").datepicker("option", "defaultDate",
+				new Date(1999, 2 - 1, 4));
+	});
+</script>
 
 </head>
 
@@ -80,8 +102,17 @@ body {
 					<ul class="nav nav-list">
 						<li class="nav-header">Sidebar</li>
 						<li><a href="index">Accueil</a></li>
-						<li class="active"><a href="getMeasures" >Toutes les mesures</a></li>
-						<li><a href="#">Link</a></li>
+						<li><a href="getMeasures">Toutes les mesures</a></li>
+						<li class="active"><a href="dateMeasure">Fenetre
+								glissante</a></li>
+						<li><a href="totalConsumptionHousehold">Total par maison</a></li>
+						<li><a href="totalConsumptionAppliance">Total par
+								équipement</a></li>
+						<li><a href="maxConsumptionHousehold">Maison énergivore</a></li>
+						<li><a href="maxConsumptionAppliance">Equipement
+								énergivore</a></li>
+						<li><a href="minConsumptionHousehold">Maison économe</a></li>
+						<li><a href="minConsumptionAppliance">Equipement économe</a></li>
 						<li><a href="#">Link</a></li>
 					</ul>
 				</div>
@@ -93,32 +124,26 @@ body {
 				<div class="row-fluid">
 					<div class="span12">
 
-						<form class="well">
+						<form class="well" method="post" action="dateMeasure">
 							<fieldset>
-								<legend>Plage sur laquelle les mesures seront recupérées</legend>
-								<br /> <label for="datepicker1">
-								 	<div class="span3"><input type="text" value="01/01/1998" id="datepicker1"/></div>
-								</label>
-								<label for="datepicker2">
-								 	<div class="span3"><input type="text" value="01/01/1998" id="datepicker2"/></div>
-								</label>
+								<div class="span6">
+									<p>
+										Date début: <input type="text" class="datepicker"
+											name="startDate" id="startDate" />
+									</p>
+								</div>
+								<div class="span6">
+									<p>
+										Date fin: <input type="text" class="datepicker" name="endDate"
+											id="endDate" />
+									</p>
+								</div>
 								<button type="submit">Envoyer</button>
 							</fieldset>
 						</form>
+						<p>${startDate}</p>
+						<p>${endDate}</p>
 
-						
-					
-							
-						<script type="text/javascript">
-						  $(function() {
-							$("#datepicker1").datepicker('minDate : 3');
-						    $('#datepicker2').datepicker({
-						    	minDate: '1998-01-23',
-						    	maxDate: '1999-02-04'
-						    });
-
-						  });
-						</script>
 					</div>
 				</div>
 				<!--/row-->
@@ -136,6 +161,6 @@ body {
 	</div>
 	<!--/.fluid-container-->
 
-	
+
 </body>
 </html>

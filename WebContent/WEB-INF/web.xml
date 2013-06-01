@@ -1,35 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <display-name>EnergyDataWeb</display-name>
-  <servlet>
-    <servlet-name>Servlet1</servlet-name>
-    <servlet-class>org.energydata.servlets.Servlet1</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Servlet1</servlet-name>
-    <url-pattern>/getMeasures</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>Accueil</servlet-name>
-    <servlet-class>org.energydata.servlets.Accueil</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Accueil</servlet-name>
-    <url-pattern>/index</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>FenetreGlissance</servlet-name>
-    <servlet-class>org.energydata.servlets.FenetreGlissante</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>FenetreGlissance</servlet-name>
-    <url-pattern>/dateMeasure</url-pattern>
-  </servlet-mapping>
-  
-  <welcome-file-list>
-    <welcome-file>accueil.jsp</welcome-file>
-  </welcome-file-list>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>EnergyDataWeb</display-name>
+	    <listener>
+        <listener-class>
+                com.sun.xml.ws.transport.http.servlet.WSServletContextListener
+        </listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>measureWS</servlet-name>
+        <servlet-class>
+        	com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>measureWS</servlet-name>
+        <url-pattern>/measureWS</url-pattern>
+    </servlet-mapping>
+	<servlet>
+		<servlet-name>Servlet1</servlet-name>
+		<servlet-class>org.energydata.servlets.Servlet1</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Servlet1</servlet-name>
+		<url-pattern>/getMeasures</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Accueil</servlet-name>
+		<servlet-class>org.energydata.servlets.Accueil</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Accueil</servlet-name>
+		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
 
-    
+	<servlet>
+		<servlet-name>FenetreGlissante</servlet-name>
+		<servlet-class>org.energydata.servlets.FenetreGlissante</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FenetreGlissante</servlet-name>
+		<url-pattern>/dateMeasure</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>TotalConsumptionHousehold</servlet-name>
+		<servlet-class>org.energydata.servlets.TotalConsumptionHousehold</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TotalConsumptionHousehold</servlet-name>
+		<url-pattern>/totalConsumptionHousehold</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>TotalConsumptionAppliance</servlet-name>
+		<servlet-class>org.energydata.servlets.TotalConsumptionAppliance</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TotalConsumptionAppliance</servlet-name>
+		<url-pattern>/totalConsumptionAppliance</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MaxConsumptionHousehold</servlet-name>
+		<servlet-class>org.energydata.servlets.MaxConsumptionHousehold</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MaxConsumptionHousehold</servlet-name>
+		<url-pattern>/maxConsumptionHousehold</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MaxConsumptionAppliance</servlet-name>
+		<servlet-class>org.energydata.servlets.MaxConsumptionAppliance</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MaxConsumptionAppliance</servlet-name>
+		<url-pattern>/maxConsumptionAppliance</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>MinConsumptionHousehold</servlet-name>
+		<servlet-class>org.energydata.servlets.MinConsumptionHousehold</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MinConsumptionHousehold</servlet-name>
+		<url-pattern>/minConsumptionHousehold</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MinConsumptionAppliance</servlet-name>
+		<servlet-class>org.energydata.servlets.MinConsumptionAppliance</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MinConsumptionAppliance</servlet-name>
+		<url-pattern>/minConsumptionAppliance</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>accueil.jsp</welcome-file>
+	</welcome-file-list>
+
+
 
 </web-app>
