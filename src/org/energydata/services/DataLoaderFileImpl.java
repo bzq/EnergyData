@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -92,11 +95,15 @@ public class DataLoaderFileImpl  implements DataLoader{
 	private Date convertStringToDate(String date, String time){
 
 		Date newDate=null;
-		try {
-			newDate= new SimpleDateFormat("dd/MM/yy HH:mm").parse(date+" "+time);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
+		
+		
+		dateFormat.setTimeZone(TimeZone.getDefault());  
+		try {  
+		    newDate = dateFormat.parse(date+" "+time);  
+
+		} catch (ParseException e) {  
+		    e.printStackTrace();  
 		}	
 		return newDate;
 	}
@@ -237,14 +244,22 @@ public class DataLoaderFileImpl  implements DataLoader{
 
 		System.out.println("Debut du programme");
 
-		String dataSource = "Data/RawData/1000080-2000903-3009929.txt";
-		//String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
+	//	String dataSource = "Data/RawData/1000080-2000903-3009929.txt";
+	//	String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
+		String dataSource = "Data/RawData/1000080-2000903-3009932.txt";
 		DataLoader dataLoader = new DataLoaderFileImpl(new File(dataSource));
 		//dataLoader.convertMeasureToDailyAverage();
+		
+	//	System.out.println(dataLoader.getMeasures().size());
+    //		for(Measure measure : dataLoader.getMeasures()){
+			
+	//		System.out.println(measure.getDate());
+              
+			
+	//	}
 		DataStorage dataStorage = new DataStorageDBImpl();
 		dataStorage.save(dataLoader);
 		System.out.println("Programme termine");
-
 	}
 	
 
