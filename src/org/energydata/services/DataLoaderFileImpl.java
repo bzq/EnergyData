@@ -4,15 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -95,15 +92,17 @@ public class DataLoaderFileImpl  implements DataLoader{
 	private Date convertStringToDate(String date, String time){
 
 		Date newDate=null;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
-		
-		
-		dateFormat.setTimeZone(TimeZone.getDefault());  
-		try {  
-		    newDate = dateFormat.parse(date+" "+time);  
-
-		} catch (ParseException e) {  
-		    e.printStackTrace();  
+		try {
+			newDate= new SimpleDateFormat("dd/MM/yy HH:mm").parse(date+" "+time);
+//			if(date.equals("30/03/98")){
+//				System.exit(0);
+//			}
+//			else{
+//				System.out.println(date);
+//			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}	
 		return newDate;
 	}
@@ -167,18 +166,23 @@ public class DataLoaderFileImpl  implements DataLoader{
 		String[] split = line.split("\\n");
 
 		for(int i=0;i<split.length;i++){
+			
 			String[] header = line.split(":");
 			String[] data = line.split("\\t");
 			if(data.length==4 && isMeasure(data[0])){
 				Measure mesure;
-				Date dateMeasure = this.convertStringToDate(data[0], data[1]);
+				Date dateMeasure = this.convertStringToDate(data[0].trim(), data[1].trim());
+
+//				System.out.println("Mesure: "+dateMeasure.toString());
+
 				long energyValue = Long.parseLong(data[3]);
 				int state = Integer.parseInt(data[2]);
 			//	mesure= Factory.createMeasure(dateMeasure, energyValue, state, sensor);
 				mesure= Factory.createMeasure(dateMeasure, energyValue, state);
-				
 //				System.out.println(mesure.toString());
-				this.add(mesure);
+//				if(mesure.getEnergyValue()!=0){
+					this.add(mesure);
+//				}
 			}
 			else if(header[0].trim().equals("HOUSEHOLD")){
 				int houseName = Integer.parseInt(header[1].trim());
@@ -243,23 +247,27 @@ public class DataLoaderFileImpl  implements DataLoader{
 	public static void main(String args[]){
 
 		System.out.println("Debut du programme");
-
-	//	String dataSource = "Data/RawData/1000080-2000903-3009929.txt";
-	//	String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
-		String dataSource = "Data/RawData/1000080-2000903-3009932.txt";
-		DataLoader dataLoader = new DataLoaderFileImpl(new File(dataSource));
-		//dataLoader.convertMeasureToDailyAverage();
+		String dataSourceFile = "Data/RawData";
+//		String dataSource = "Data/RawData/1000080-2000903-3009932.txt";
+		//String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
+		File listFichier = new File(dataSourceFile);
+		if(listFichier.isDirectory()){
+			for(String fichier : listFichier.list()){
+				System.out.println("Fichier: "+fichier);
+				DataLoader dataLoader = new DataLoaderFileImpl(new File(listFichier.getAbsolutePath()+"/"+fichier));
+				dataLoader.convertMeasureToDailyAverage();
+				DataStorage dataStorage = new DataStorageDBImpl();
+				dataStorage.save(dataLoader);
+				
+			}
+		}
 		
-	//	System.out.println(dataLoader.getMeasures().size());
-    //		for(Measure measure : dataLoader.getMeasures()){
-			
-	//		System.out.println(measure.getDate());
-              
-			
-	//	}
-		DataStorage dataStorage = new DataStorageDBImpl();
-		dataStorage.save(dataLoader);
 		System.out.println("Programme termine");
+
+		
+		
+
+
 	}
 	
 
