@@ -74,7 +74,7 @@ CREATE  TABLE Measure (
   dateMeasure date NOT NULL,
   state INT NOT NULL ,
   energyValue INT NOT NULL ,
-  PRIMARY KEY (idSensor, dateMeasure),
+  CONSTRAINT pk_mesaure PRIMARY KEY (idSensor, dateMeasure),
   CONSTRAINT fk_Measure_Sensor1 FOREIGN KEY (idSensor ) REFERENCES Sensor (idSensor ));
   
   CREATE SEQUENCE measure_Seq;
