@@ -35,6 +35,8 @@ public class MeasureDaoImpl implements MeasureDao {
 			preparedStatement.setInt(2, measure.getSensor().getHouseHold().getIdHouseHold());
 			DateTime dt = new DateTime(measure.getDate());
 			String date = dt.getDayOfMonth()+"-"+dt.getMonthOfYear()+"-"+dt.getYear()+" "+dt.getHourOfDay()+":"+dt.getMinuteOfHour();
+//			System.out.println("date dao: "+date);
+//			if(date.equals("30-3-1998 1:0")) System.exit(0);
 			preparedStatement.setString(3, date);
 
 			preparedStatement.setInt(4, measure.getState());
@@ -42,7 +44,7 @@ public class MeasureDaoImpl implements MeasureDao {
 			preparedStatement.setFloat(5, measure.getEnergyValue());
 		
 			
-			int status = preparedStatement.executeUpdate();
+//			int status = preparedStatement.executeUpdate();
 			
 			preparedStatement.close();
 		} catch (SQLException e) {
@@ -74,7 +76,7 @@ public class MeasureDaoImpl implements MeasureDao {
 				preparedStatement.setString(2, date);
 
 				preparedStatement.setInt(3, measure.getState());
-				System.out.println("date: "+date);
+//				System.out.println("date: "+date);
 				preparedStatement.setFloat(4, measure.getEnergyValue());
 				preparedStatement.addBatch();
 				

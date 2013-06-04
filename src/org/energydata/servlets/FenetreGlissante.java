@@ -18,4 +18,10 @@ public class FenetreGlissante extends HttpServlet {
     	this.getServletContext().getRequestDispatcher( "/WEB-INF/dateSelectorMeasure.jsp" ).forward( request, response );
     }
 
+    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
+    	
+    	request.setAttribute("startDate", request.getAttribute("startDate") );
+    	request.setAttribute("endDate", request.getAttribute("endDate"));    	
+    	this.getServletContext().getRequestDispatcher( "/WEB-INF/dateSelectorMeasure.jsp" ).forward( request, response );
+    }
 }
