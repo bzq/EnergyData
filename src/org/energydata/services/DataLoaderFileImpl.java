@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -92,14 +94,32 @@ public class DataLoaderFileImpl  implements DataLoader{
 	private Date convertStringToDate(String date, String time){
 
 		Date newDate=null;
+		
+		TimeZone dtz = TimeZone.getDefault();
+		int rawOffset = dtz.getRawOffset();
+		String id= dtz.getID();
+		SimpleTimeZone stz=new SimpleTimeZone(rawOffset,id,0,0,0,0,0,0,0,0);
+		
+		TimeZone.setDefault(stz);
+
+		
 		try {
-			newDate= new SimpleDateFormat("dd/MM/yy HH:mm").parse(date+" "+time);
+			
+		SimpleDateFormat sdf = new SimpleDateFormat();
+			
+			sdf.applyPattern("dd/MM/yy HH:mm");
+			
+		//	sdf.setLenient(false);
+			newDate= sdf.parse(date+" "+time);
+			
 //			if(date.equals("30/03/98")){
 //				System.exit(0);
 //			}
 //			else{
 //				System.out.println(date);
 //			}
+			//System.out.println(date+" "+time);
+			//System.out.println(newDate.toString());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -247,10 +267,20 @@ public class DataLoaderFileImpl  implements DataLoader{
 	public static void main(String args[]){
 
 		System.out.println("Debut du programme");
-		String dataSourceFile = "Data/RawData";
-//		String dataSource = "Data/RawData/1000080-2000903-3009932.txt";
-		//String dataSource = "Data/RawData/1000080-2000900-3009906.txt";
-		File listFichier = new File(dataSourceFile);
+	//	String dataSourceFile = "Data/RawData";
+    	//String dataSource = "data/RawData/1000080-2000903-3009932.txt";
+		String dataSource = "data/RawData/1000080-2000903-3009929.txt";
+		//String dataSource = "data/RawData/1000080-2000900-3009906.txt";
+		File fichier = new File(dataSource);
+		
+		DataLoader dataLoader = new DataLoaderFileImpl(fichier);
+	//	dataLoader.convertMeasureToDailyAverage();
+		DataStorage dataStorage = new DataStorageDBImpl();
+		dataStorage.save(dataLoader);
+		
+		/*
+		
+    	//File listFichier = new File(dataSourceFile);
 		if(listFichier.isDirectory()){
 			for(String fichier : listFichier.list()){
 				System.out.println("Fichier: "+fichier);
@@ -262,6 +292,7 @@ public class DataLoaderFileImpl  implements DataLoader{
 			}
 		}
 		
+		*/
 		System.out.println("Programme termine");
 
 		

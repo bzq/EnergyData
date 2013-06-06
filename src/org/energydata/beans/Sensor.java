@@ -19,6 +19,7 @@ public class Sensor {
 	private HouseHold houseHold;
 	private int identifySensor;
 	private List<Measure> listOfMeasure;
+    private int identifySensorSecond;
 
 	private String location;
 
@@ -27,6 +28,7 @@ public class Sensor {
 	
 	protected Sensor(){
 		listOfMeasure = new ArrayList<Measure>();
+		this.identifySensorSecond=-1;
 	}
 	public void addMeasure(Measure measure) {
 
@@ -141,5 +143,11 @@ public class Sensor {
 				+ ", descriptionSensor=" + descriptionSensor + ", location="
 				+ location + ", appliance=" + appliance + ", houseHold="
 				+ houseHold + ", listOfMeasure=" + "]";
+	}
+	public int getIdentifySensorSecond() {
+		return identifySensorSecond;
+	}
+	public void setIdentifySensorSecond(int identifySensorSecond) {
+		this.identifySensorSecond = identifySensorSecond;
 	}
 }
