@@ -23,7 +23,7 @@ public class SensorDaoImpl implements SensorDao {
 		ResultSet rs = null;
 		try {
 			connect = daoFactory.getConnection();
-			preparedStatement = connect.prepareStatement("INSERT INTO  Sensor (descriptionSensor,location,idHouseHold,idAppliance, idSensor) VALUES (?,?,?,?,?)");
+			preparedStatement = connect.prepareStatement("INSERT INTO  Sensor (descriptionSensor,location,idHouseHold,idAppliance, idSensor, idSensorSec) VALUES (?,?,?,?,?,?)");
 			
 			
 			preparedStatement.setString(1, sensor.getDescriptionSensor());
@@ -35,6 +35,8 @@ public class SensorDaoImpl implements SensorDao {
 			preparedStatement.setInt(4, sensor.getAppliance().getIdAppliance());
 			
 			preparedStatement.setInt(5, sensor.getIdentifySensor());
+			
+			preparedStatement.setInt(6, sensor.getIdentifySensorSecond());
 			
 			int status = preparedStatement.executeUpdate();
 			if(status==1){

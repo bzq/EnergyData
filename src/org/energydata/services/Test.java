@@ -1,7 +1,9 @@
 package org.energydata.services;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
@@ -30,26 +32,41 @@ public class Test {
 		String time= "02:00";
 		
         
-		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy HH:mm");
-		DateTime dt = formatter.parseDateTime(date+" "+time);
+		//DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy HH:mm");
+		//DateTime dt = formatter.parseDateTime(date+" "+time);
 		
 		
-		t=dt.toDate();
+		//t=dt.toDate();
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		
-		System.out.println(t);
-	//	Date newDate=null;
-		//SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");  
+		SimpleDateFormat dateFormat = new SimpleDateFormat();
+		dateFormat.applyPattern("dd/MM/yy HH:mm");
+		dateFormat.setCalendar(calendar);
+	
+	/*	
+		//DateFormat df =DateFormat.getDateInstance(DateFormat.SHORT);
+		try {
+			t=df.parse(date+" "+time);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		//  SimpleTimeZone tz = new SimpleTimeZone(0, "Out Timezone");  
+	*/	
+		//System.out.println(t);
+		Date newDate=null;
+	//	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");  
+		
+		  //SimpleTimeZone tz = new SimpleTimeZone(0, "Out Timezone");  
 		 // dateFormat.setTimeZone(tz);
 
-		//try {  
-		 //   newDate = dateFormat.parse();  
+		try {  
+		   newDate = dateFormat.parse(date+" "+time);  
 
-	//	} catch (ParseException e) {  
-		//    e.printStackTrace();  
-	//	}	
-		//System.out.println(newDate.toString());
+		} catch (ParseException e) {  
+		    e.printStackTrace();  
+		}	
+		System.out.println(newDate.toString());
 		
 		
 		

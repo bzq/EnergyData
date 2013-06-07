@@ -2,6 +2,7 @@ package org.energydata.services;
 
 
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,6 +32,8 @@ public class LauncherImpl implements Launcher {
 		return null;
 	}
 	
+	
+/*	
 	
 	
 	public Map getTotalHouseHold(Date start, Date fin){
@@ -84,7 +87,61 @@ public class LauncherImpl implements Launcher {
 	}
 	
 	
-    
+ */
+	
+
+	public void LoadFileByFile(String fileName){
+		
+        File fichier = new File(fileName);
+		
+		DataLoader dataLoader = new DataLoaderFileImpl(fichier);
+		DataStorage dataStorage = new DataStorageDBImpl();
+		dataStorage.save(dataLoader);	
+	
+	}
+	
+	
+	
+	
+	public boolean LoadFileByDiectory(String directoryName){
+		
+		
+	    	
+		
+		return false;		
+		
+	}
+	
+	
+	public static void main(String args[]){
+		
+		System.out.println("Debut du programme");
+		
+		long begintime = System.nanoTime();
+
+
+		//String dataSource = "data/RawData/1000080-2000903-3009932.txt";
+		//String dataSource = "data/RawData/1000080-2000903-3009929.txt";
+		String dataSource = "data/RawData/1000080-2000900-3009906.txt";
+		
+		LauncherImpl laucher = new LauncherImpl();
+		
+		laucher.LoadFileByFile(dataSource);
+		
+		
+		
+		System.out.println("Programme termine");
+		 long endtime = System.nanoTime();
+		 long costTime = (endtime - begintime)/1000000000;
+		 
+		System.out.println("This action was during : " + costTime + "s");
+		
+		
+		
+		
+		
+	}
+	
 	
 
 }

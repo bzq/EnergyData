@@ -58,55 +58,43 @@ public class MeasureDaoImpl implements MeasureDao {
 	
 	public void createList(Sensor sensor,List<Measure> measureList){
 		Connection connect = null;
-		PreparedStatement preparedStatement = null;
-		
+		PreparedStatement preparedStatement = null;		
 		ArrayList<Measure> measureLocal = new ArrayList<Measure>(measureList);
 
 		try {
+			// Get instance of Object Connection
 			connect = daoFactory.getConnection();
+			// Disable AutoCommit
 			connect.setAutoCommit(false);
-			//preparedStatement = connect.prepareStatement("INSERT INTO  Measure ( idSensor, idHouseHold ,dateMeasure,state,energyValue) VALUES (?,?,to_date(?,'dd-mm-yyyy hh24:mi'),?,?)");
-			preparedStatement = connect.prepareStatement("INSERT INTO  Measure ( idSensor, dateMeasure,state,energyValue) VALUES (?,to_date(?,'dd-mm-yyyy hh24:mi'),?,?)");
-		//	preparedStatement = connect.prepareStatement("INSERT INTO  Measure ( idSensor, dateMeasure,state,energyValue) VALUES (?,?,?,?)");
+            //  Prepare the query for insert
+			preparedStatement = connect.prepareStatement("INSERT INTO  Measure ( idSensor, dateMeasure,state,energyValue) VALUES (?,?,?,?)");
 			
-			
+			// Go through the table measure
 			for(Measure measure : measureLocal){
-			//	preparedStatement = connect.prepareStatement("INSERT INTO  Measure ( idSensor, dateMeasure,state,energyValue) VALUES (?,?,?,?)");
 				
-				System.out.println("Date from list measure : "+measure.getDate());
-			//	System.out.println(sensor.getIdentifySensor());
-	     		//preparedStatement.setInt(1, measure.getSensor().getIdentifySensor());
+			//	System.out.println("Date from list measure : "+measure.getDate());
+                // Set the ID Sensor for insert
 				preparedStatement.setInt(1, sensor.getIdentifySensor());
-				
-				//preparedStatement.setInt(2, measure.getSensor().getHouseHold().getIdHouseHold());
-				//preparedStatement.setInt(2, sensor.getHouseHold().getIdHouseHold());
-				DateTime dt = new DateTime(measure.getDate());
-				String date = dt.getDayOfMonth()+"-"+dt.getMonthOfYear()+"-"+dt.getYear()+" "+dt.getHourOfDay()+":"+dt.getMinuteOfHour();
-		    
-				System.out.println("Date insert pour dao : "+date);
-				preparedStatement.setString(2, date);
-			//	Timestamp ts = new Timestamp(measure.getDate().getTime());
-			//	preparedStatement.setTimestamp(2, ts);
-				
+                // Create a Timestamp instance
+				Timestamp ts = new Timestamp(measure.getDate().getTime());
+				// Set the date for insert
+				preparedStatement.setTimestamp(2, ts);
+				// Set the state of this measure for insert
 				preparedStatement.setInt(3, measure.getState());
-				//System.out.println("date: "+ ts);
+				// Set the value of this measure for insert
 				preparedStatement.setFloat(4, measure.getEnergyValue());
-		    //  preparedStatement.addBatch();
-		    	preparedStatement.executeUpdate();
-		    // 	preparedStatement.close();
-		  	
-	     		connect.commit();
+				// Use the transaction addBatch for insert
+		        preparedStatement.addBatch();
 				
 			}
 			
-			//System.out.println(j);
-		   // int[] status = preparedStatement.executeBatch();
-
-		    // connect.commit();
-			
+			// executeBatch 
+		    int[] status = preparedStatement.executeBatch();
+            // Commit the result
+		     connect.commit();
+			// Close the connection
 			preparedStatement.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 

@@ -44,6 +44,7 @@ END;
 
 CREATE  TABLE Sensor (
   idSensor INT NOT NULL ,
+  idSensorSec INT NOT NULL,
   descriptionSensor VARCHAR(255) NULL ,
   location VARCHAR(45) NULL ,
   idHouseHold INT NOT NULL ,
