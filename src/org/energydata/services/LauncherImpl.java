@@ -40,7 +40,6 @@ public class LauncherImpl implements Launcher {
 		
 		Map<String,double> tmp = new Map<String,double>();
 		
-		
 		try {
 			connect = daoFactory.getConnection();
 			preparedStatement = connect.prepareStatement("SELECT h.idhousehold,sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor where m.dateMeasure between(?,?) group by h.idhousehold");
@@ -57,14 +56,7 @@ public class LauncherImpl implements Launcher {
 				while(rs.next()){
 					
 					String idHouseHold = rs.getString(0);
-									
 					Double  total = rs.getDouble(1);
-					
-				    
-					
-					
-					
-					
 				}
 					
 				
