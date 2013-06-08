@@ -72,6 +72,8 @@ public class MeasureDaoImpl implements MeasureDao {
 			// Go through the table measure
 			for(Measure measure : measureLocal){
 				
+				if(measure.getEnergyValue()>=1){
+				
 			//	System.out.println("Date from list measure : "+measure.getDate());
                 // Set the ID Sensor for insert
 				preparedStatement.setInt(1, sensor.getIdentifySensor());
@@ -85,6 +87,7 @@ public class MeasureDaoImpl implements MeasureDao {
 				preparedStatement.setFloat(4, measure.getEnergyValue());
 				// Use the transaction addBatch for insert
 		        preparedStatement.addBatch();
+				}
 				
 			}
 			

@@ -111,31 +111,38 @@ public class LauncherImpl implements Launcher {
 	
 	
 	
-	public boolean LoadFileByDiectory(String directoryName){
+	public void LoadFileByDiectory(String directoryName){
 		
-		
-	    	
-		
-		return false;		
+		File listOfFile = new File(directoryName);
+		if(listOfFile.isDirectory()){
+			for(String fichier : listOfFile.list()){
+				System.out.println("Fichier: "+fichier);
+				DataLoader dataLoader = new DataLoaderFileImpl(new File(listOfFile.getAbsolutePath()+"/"+fichier));
+				DataStorage dataStorage = new DataStorageDBImpl();
+				dataStorage.save(dataLoader);
+				
+			}
+		}		
 		
 	}
 	
 	
-	public static void main(String args[]){
-		
+	public static void main(String args[]){	
 		System.out.println("Debut du programme");
 		
 		long begintime = System.nanoTime();
-
+         
+		
+		String dataSourceDirectory = "data/RawData";
 
 		//String dataSource = "data/RawData/1000080-2000903-3009932.txt";
 		//String dataSource = "data/RawData/1000080-2000903-3009929.txt";
-		String dataSource = "data/RawData/1000080-2000900-3009906.txt";
+		//String dataSource = "data/RawData/1000080-2000900-3009906.txt";
 		
-		LauncherImpl laucher = new LauncherImpl();
+		LauncherImpl launcher = new LauncherImpl();
 		
-		laucher.LoadFileByFile(dataSource);
-		
+		//laucher.LoadFileByFile(dataSource);
+		launcher.LoadFileByDiectory(dataSourceDirectory);
 		
 		
 		System.out.println("Programme termine");
