@@ -87,10 +87,8 @@ public class MeasureDaoImpl implements MeasureDao {
 				preparedStatement.setFloat(4, measure.getEnergyValue());
 				// Use the transaction addBatch for insert
 		        preparedStatement.addBatch();
-				}
-				
-			}
-			
+				}				
+			}			
 			// executeBatch 
 		    int[] status = preparedStatement.executeBatch();
             // Commit the result
