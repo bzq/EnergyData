@@ -47,7 +47,7 @@ public class Measure {
 	 * @return the value of energyValue
 	 */
 	
-	public float getEnergyValue() {
+	public long getEnergyValue() {
 		return energyValue;
 	}
 
