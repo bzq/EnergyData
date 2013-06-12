@@ -41,47 +41,12 @@
 
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Project name</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
-            </p>
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+	<jsp:include page="header.jsp" />
 
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li class="active"><a href="index">Accueil</a></li>
-              <li><a href="getMeasures">Toutes les mesures</a></li>
-              <li><a href="dateMeasure">Fenetre glissante</a></li>
-              <li><a href="totalConsumptionHousehold">Total par maison</a></li>
-              <li><a href="totalConsumptionAppliance">Total par équipement</a></li>  
-              <li><a href="maxConsumptionHousehold">Maison énergivore</a></li>  
-              <li><a href="maxConsumptionAppliance">Equipement énergivore</a></li>  
-              <li><a href="minConsumptionHousehold">Maison économe</a></li>  
-              <li><a href="minConsumptionAppliance">Equipement économe</a></li>  
-              <li><a href="#">Link</a></li>
-            </ul>
-          </div><!--/.well -->
+			<jsp:include page="menu.jsp" />
         </div><!--/span-->
         <div class="span9">
           <div class="hero-unit">
@@ -92,18 +57,18 @@
           <div class="row-fluid">
             <div class="span4">
               <h2>Maison la plus consommatrice</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details &raquo;</a></p>
+              <p><c:out value="${household.key}" /></p>
+              <p><a class="btn" href="maxConsumptionHousehold">View details &raquo;</a></p>
             </div><!--/span-->
             <div class="span4">
               <h2>Equipement qui consomme le plus</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details &raquo;</a></p>
+              <p><c:out value="${appliance.key}" /></p>
+              <p><a class="btn" href="maxConsumptionAppliance">View details &raquo;</a></p>
             </div><!--/span-->
             <div class="span4">
               <h2>Jour de consommation le plus important</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details &raquo;</a></p>
+              <p><c:out value="${date.key}" /></p>
+              <p><a class="btn" href="maxConsumptionDate">View details &raquo;</a></p>
             </div><!--/span-->
           </div><!--/row-->
         </div><!--/span-->

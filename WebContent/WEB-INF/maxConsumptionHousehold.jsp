@@ -56,52 +56,12 @@ body {
 
 <body>
 
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<button type="button" class="btn btn-navbar" data-toggle="collapse"
-					data-target=".nav-collapse">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="brand" href="#">Project name</a>
-				<div class="nav-collapse collapse">
-					<p class="navbar-text pull-right">
-						Logged in as <a href="#" class="navbar-link">Username</a>
-					</p>
-					<ul class="nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#about">About</a></li>
-						<li><a href="#contact">Contact</a></li>
-					</ul>
-				</div>
-				<!--/.nav-collapse -->
-			</div>
-		</div>
-	</div>
+	<jsp:include page="../header.jsp" />
 
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span3">
-				<div class="well sidebar-nav">
-					<ul class="nav nav-list">
-						<li class="nav-header">Sidebar</li>
-						<li><a href="index">Accueil</a></li>
-						<li><a href="getMeasures">Toutes les mesures</a></li>
-						<li><a href="dateMeasure">Fenetre
-								glissante</a></li>
-						<li><a href="totalConsumptionHousehold">Total par maison</a></li>
-						<li><a href="totalConsumptionAppliance">Total par
-								équipement</a></li>
-						<li class="active"><a href="maxConsumptionHousehold">Maison énergivore</a></li>
-						<li><a href="maxConsumptionAppliance">Equipement
-								énergivore</a></li>
-						<li><a href="minConsumptionHousehold">Maison économe</a></li>
-						<li><a href="minConsumptionAppliance">Equipement économe</a></li>
-
-						<li><a href="#">Link</a></li>
-					</ul>
-				</div>
+				<jsp:include page="../menu.jsp" />
 				<!--/.well -->
 			</div>
 			<!--/span-->
@@ -123,13 +83,15 @@ body {
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td><c:out value="${household[0]}" /></td>
-									<td><c:out value="${household[1]}" /></td>
-									<td><c:out value="${household[2]}" /></td>
-									<td><c:out value="${household[3]}" /></td>
-									<td><c:out value="${household[4]}" /></td>
-								</tr>
+								<c:forEach items="${maxConsumptionHousehold}" var="household">
+									<tr>
+										<td><c:out value="${household.key}" /></td>
+										<td><c:out value="${household.value}" /></td>
+										<%-- 										<td><c:out value="${household[2]}" /></td> --%>
+										<%-- 										<td><c:out value="${household[3]}" /></td> --%>
+										<%-- 										<td><c:out value="${household[4]}" /></td> --%>
+									</tr>
+								</c:forEach>
 
 							</tbody>
 						</table>
