@@ -71,25 +71,20 @@ body {
 					<div class="span12">
 						<table class="table table-bordered table-striped table-condensed">
 							<caption>
-								<h4>Maison économe</h4>
+								<h4>Date où la consommation a été la plus forte</h4>
 							</caption>
 							<thead>
 								<tr>
-									<th>Maison</th>
+									<th>Date</th>
 									<th>Consommation</th>
-									<th>Nombre d'équipement éléctrique</th>
-									<th>Date début</th>
-									<th>Date fin</th>
+
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${minConsumptionHousehold}" var="household">
+								<c:forEach items="${maxConsumptionDate}" var="date">
 									<tr>
-										<td><c:out value="${household.key}" /></td>
-										<td><c:out value="${household.value}" /></td>
-<%-- 										<td><c:out value="${household[2]}" /></td> --%>
-<%-- 										<td><c:out value="${household[3]}" /></td> --%>
-<%-- 										<td><c:out value="${household[4]}" /></td> --%>
+										<td><c:out value="${date.key}" /></td>
+										<td><c:out value="${date.value}" /></td>
 									</tr>
 								</c:forEach>
 
