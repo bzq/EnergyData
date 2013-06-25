@@ -19,6 +19,7 @@ import org.energydata.beans.Appliance;
 import org.energydata.beans.Factory;
 import org.energydata.beans.HouseHold;
 import org.energydata.beans.Measure;
+import org.energydata.beans.Sensor;
 import org.energydata.dao.DAOFactory;
 
 
@@ -368,6 +369,26 @@ public class LauncherImpl implements Launcher {
 		
 		
 	}
+
+	@Override
+	public Map<String, Double> getLeastConsumeDate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<Sensor, Double> getSensorsList(int houseHoldId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getNumberOfSensor(Appliance appliance) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 	
 	
 

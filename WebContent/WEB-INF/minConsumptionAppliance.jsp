@@ -23,8 +23,7 @@ body {
 	padding: 9px 0;
 }
 
-@media ( max-width : 980px) {
-	/* Enable use of floated navbar text */
+@media ( max-width : 980px) { /* Enable use of floated navbar text */
 	.navbar-text.pull-right {
 		float: none;
 		padding-left: 5px;
@@ -32,7 +31,6 @@ body {
 	}
 }
 </style>
-
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <link rel="stylesheet"
@@ -51,6 +49,22 @@ body {
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
+<script>
+	$(function() {
+		$(".datepicker").datepicker();
+		$(".datepicker").datepicker("option", "regional", "fr");
+		$(".datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
+		$(".datepicker").datepicker("option", "minDate",
+				new Date(1998, 1 - 1, 23));
+		$(".datepicker").datepicker("option", "maxDate",
+				new Date(1999, 2 - 1, 4));
+		$("#startDate").datepicker("option", "defaultDate",
+				new Date(1998, 1 - 1, 23));
+		$("#endDate").datepicker("option", "defaultDate",
+				new Date(1999, 2 - 1, 4));
+		
+	});
+</script>
 
 </head>
 
@@ -63,6 +77,24 @@ body {
 			<div class="span3">
 				<jsp:include page="../menu.jsp" />
 				<!--/.well -->
+				<form class="well" method="get" action="minConsumptionAppliance">
+					<fieldset>
+						<div class="span6">
+							<p>
+								Date début: <input type="text" class="datepicker"
+									name="startDate" id="startDate" />
+
+							</p>
+						</div>
+						<div class="span6">
+							<p>
+								Date fin: <input type="text" class="datepicker" name="endDate"
+									id="endDate" />
+							</p>
+						</div>
+						<button type="submit">Envoyer</button>
+					</fieldset>
+				</form>
 			</div>
 			<!--/span-->
 			<div class="span9">
@@ -87,12 +119,11 @@ body {
 									<tr>
 										<td><c:out value="${appliance.key.applianceName}" /></td>
 										<td><c:out value="${appliance.value}" /></td>
-										<%-- 										<td><c:out value="${appliance[2]}" /></td> --%>
-										<%-- 										<td><c:out value="${appliance[3]}" /></td> --%>
-										<%-- 										<td><c:out value="${appliance[4]}" /></td> --%>
+										<td><c:out value="${sensorNumber}" /></td>
+										<td><c:out value="${startDate}" /></td>
+										<td><c:out value="${endDate}" /></td>
 									</tr>
 								</c:forEach>
-
 							</tbody>
 						</table>
 

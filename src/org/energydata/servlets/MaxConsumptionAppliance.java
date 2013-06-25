@@ -29,11 +29,20 @@ public class MaxConsumptionAppliance extends HttpServlet {
 //    	appliance[2]="4000";
 //    	appliance[3]="01-01-1998";
 //    	appliance[4]="02-02-1999";
-//    	
+    	
+    	String startDate = request.getParameter("startDate");
+    	String endDate = request.getParameter("endDate");
+    	
        	Launcher launch = new LauncherImpl();
     	Map<Appliance, Double> maxConsumptionAppliance = launch.getApplianceMostConsume();
- 
+    	Appliance appliance = maxConsumptionAppliance.entrySet().iterator().next().getKey();
+    	int sensorNumber = launch.getNumberOfSensor(appliance);
+
     	request.setAttribute("maxConsumptionAppliance", maxConsumptionAppliance);
+    	request.setAttribute("sensorNumber", sensorNumber);
+    	request.setAttribute("startDate", startDate);
+    	request.setAttribute("endDate", endDate);
+    	
     	this.getServletContext().getRequestDispatcher( "/WEB-INF/maxConsumptionAppliance.jsp" ).forward( request, response );
     }
 

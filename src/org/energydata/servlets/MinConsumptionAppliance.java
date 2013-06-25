@@ -22,19 +22,19 @@ import org.energydata.services.LauncherImpl;
 public class MinConsumptionAppliance extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 
-
-//    	String[] appliance=new String[5];
-//    	appliance[0]="Ampoule électrique (15W)";
-//    	appliance[1]="10MW";
-//    	appliance[2]="3000";
-//    	appliance[3]="01-01-1998";
-//    	appliance[4]="02-02-1999";
-
+    	String startDate = request.getParameter("startDate");
+    	String endDate = request.getParameter("endDate");
+    	
        	Launcher launch = new LauncherImpl();
     	Map<Appliance, Double> minConsumptionAppliance = launch.getApplianceLeastConsume();
- 
-    	request.setAttribute("minConsumptionAppliance", minConsumptionAppliance);
+    	Appliance appliance = minConsumptionAppliance.entrySet().iterator().next().getKey();
+    	int sensorNumber = launch.getNumberOfSensor(appliance);
 
+    	request.setAttribute("minConsumptionAppliance", minConsumptionAppliance);
+    	request.setAttribute("sensorNumber", sensorNumber);
+    	request.setAttribute("startDate", startDate);
+    	request.setAttribute("endDate", endDate);
+    	
     	this.getServletContext().getRequestDispatcher( "/WEB-INF/minConsumptionAppliance.jsp" ).forward( request, response );
     }
 

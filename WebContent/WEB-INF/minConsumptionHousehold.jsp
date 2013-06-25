@@ -23,16 +23,19 @@ body {
 	padding: 9px 0;
 }
 
-@media ( max-width : 980px) {
-	/* Enable use of floated navbar text */
-	.navbar-text.pull-right {
-		float: none;
-		padding-left: 5px;
-		padding-right: 5px;
-	}
+@media
+(
+max-width
+:
+980px)
+{ /* Enable use of floated navbar text */
+.navbar-text.pull-right {
+	float: none;
+	padding-left: 5px;
+	padding-right: 5px;
+}
 }
 </style>
-
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <link rel="stylesheet"
@@ -51,6 +54,22 @@ body {
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
+<script>
+	$(function() {
+		$(".datepicker").datepicker();
+		$(".datepicker").datepicker("option", "regional", "fr");
+		$(".datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
+		$(".datepicker").datepicker("option", "minDate",
+				new Date(1998, 1 - 1, 23));
+		$(".datepicker").datepicker("option", "maxDate",
+				new Date(1999, 2 - 1, 4));
+		$("#startDate").datepicker("option", "defaultDate",
+				new Date(1998, 1 - 1, 23));
+		$("#endDate").datepicker("option", "defaultDate",
+				new Date(1999, 2 - 1, 4));
+		
+	});
+</script>
 
 </head>
 
@@ -63,6 +82,25 @@ body {
 			<div class="span3">
 				<jsp:include page="../menu.jsp" />
 				<!--/.well -->
+
+				<form class="well" method="get" action="minConsumptionHousehold">
+					<fieldset>
+						<div class="span6">
+							<p>
+								Date début: <input type="text" class="datepicker"
+									name="startDate" id="startDate" />
+
+							</p>
+						</div>
+						<div class="span6">
+							<p>
+								Date fin: <input type="text" class="datepicker" name="endDate"
+									id="endDate"/>
+							</p>
+						</div>
+						<button type="submit">Envoyer</button>
+					</fieldset>
+				</form>
 			</div>
 			<!--/span-->
 			<div class="span9">
@@ -87,29 +125,70 @@ body {
 									<tr>
 										<td><c:out value="${household.key}" /></td>
 										<td><c:out value="${household.value}" /></td>
-<%-- 										<td><c:out value="${household[2]}" /></td> --%>
-<%-- 										<td><c:out value="${household[3]}" /></td> --%>
-<%-- 										<td><c:out value="${household[4]}" /></td> --%>
+										<%-- 										<td><c:out value="${household[2]}" /></td> --%>
+										<%-- 										<td><c:out value="${household[3]}" /></td> --%>
+										<%-- 										<td><c:out value="${household[4]}" /></td> --%>
 									</tr>
 								</c:forEach>
 
 							</tbody>
 						</table>
+						<c:if test="${empty sensorsList}">
+							<form method="post" action="minConsumptionHousehold">
+								<fieldset>
+									<c:forEach items="${minConsumptionHousehold}" var="household">
+										<input type="hidden" id="valeur" name="valeur"
+											value=${household.key } />
+									</c:forEach>
 
+									<input type="submit" value="Afficher les équipements"
+										class="sansLabel" /> <br />
+								</fieldset>
+							</form>
+						</c:if>
 
 					</div>
+					<c:if test="${not empty sensorsList}">
+						<div class="span12">
+							<table class="table table-bordered table-striped table-condensed">
+								<caption>
+									<h4>Liste des équipements</h4>
+								</caption>
+								<thead>
+									<tr>
+										<th>Equipement</th>
+										<th>Numéro</th>
+										<th>Consommation sur la période</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${sensorsList}" var="sensor">
+										<tr>
+											<td><c:out value="${sensor.key.appliance.applianceName}" /></td>
+											<td><c:out value="${sensor.key.identifySensor}" /></td>
+											<td><c:out value="${sensor.value}" /></td>
+										</tr>
+									</c:forEach>
+
+								</tbody>
+							</table>
+						</div>
+					</c:if>
+
+
 				</div>
-				<!--/row-->
 			</div>
-			<!--/span-->
+			<!--/row-->
 		</div>
-		<!--/row-->
+		<!--/span-->
+	</div>
+	<!--/row-->
 
-		<hr>
+	<hr>
 
-		<footer>
-		<p>&copy; EnergyData 2013</p>
-		</footer>
+	<footer>
+	<p>&copy; EnergyData 2013</p>
+	</footer>
 
 	</div>
 	<!--/.fluid-container-->
