@@ -69,14 +69,40 @@ public class LauncherImpl implements Launcher {
 	
 	
 	public Map<Integer, Double> getTotalConsumeEachHouseHold(String startDate, String finDate){
-		return null;
-	//		.prepareStatement("SELECT h.idhousehold,sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor where m.dateMeasure between(?,?) group by h.idhousehold");
-			
-//	Timestamp ts1 = new Timestamp(start.getTime());
-//	Timestamp ts2 = new Timestamp(fin.getTime());
+		
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
 
-//	preparedStatement.setTimestamp(1, ts1);
-//	preparedStatement.setTimestamp(2, ts2);
+		HashMap<Integer, Double> tmp = new HashMap<Integer, Double>();
+
+		try {
+			connect = daoFactory.getConnection();
+			preparedStatement = connect
+					.prepareStatement("SELECT h.idhousehold,sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename='Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd')  group by h.idhousehold");
+            
+			preparedStatement.setString(1, startDate);
+			preparedStatement.setString(2, finDate);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				int idAppliance = rs.getInt(1);
+
+				Double total = rs.getDouble(2);
+
+				tmp.put(idAppliance, total);
+
+			}
+
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+
+		}
+		return tmp;
+		
+		
 	
 	}
 	
@@ -103,6 +129,33 @@ public class LauncherImpl implements Launcher {
 		return tmp;
 	}
 	
+	public Map<Integer, Double> getHouseHoldMostConsume(String startDate,String finDate) {
+	
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		HashMap<Integer, Double> tmp = new HashMap<Integer, Double>();
+		try {
+			connect = daoFactory.getConnection();
+			preparedStatement = connect
+					.prepareStatement("SELECT h.idhousehold as idHouseHold, sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename='Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd') group by h.idhousehold order by sum(m.energyvalue) desc");
+			preparedStatement.setString(1, startDate);
+			preparedStatement.setString(2, finDate);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				int idHouseHold = rs.getInt(1);
+
+				Double total = rs.getDouble(2);
+
+				tmp.put(idHouseHold, total);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return tmp;
+		
+	
+	}
+	
 	
 	@Override
 	public Map<Integer, Double> getHouseHoldLeastConsume() {
@@ -127,7 +180,32 @@ public class LauncherImpl implements Launcher {
 		return tmp;
 	}
 	
+	public Map<Integer, Double> getHouseHoldLeastConsume(String startDate,String finDate) {
+		
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		HashMap<Integer, Double> tmp = new HashMap<Integer, Double>();
 
+		try {
+			connect = daoFactory.getConnection();
+			preparedStatement = connect
+					.prepareStatement("SELECT  h.idhousehold as idHouseHold, sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename='Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd') group by h.idhousehold order by sum(m.energyvalue)");
+			preparedStatement.setString(1, startDate);
+			preparedStatement.setString(2, finDate);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				int idHouseHold = rs.getInt(1);
+				Double total = rs.getDouble(2);
+				tmp.put(idHouseHold, total);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return tmp;
+		
+		
+	}
+	
 	@Override
 	public Map<Appliance, Double> getTotalConsumeEachAppliance() {
 
@@ -167,6 +245,46 @@ public class LauncherImpl implements Launcher {
 
 	}
 	
+	public Map<Appliance, Double> getTotalConsumeEachAppliance(String startDate,String finDate) {
+		
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+
+		HashMap<Appliance, Double> tmp = new HashMap<Appliance, Double>();
+
+		try {
+			connect = daoFactory.getConnection();
+			preparedStatement = connect
+					.prepareStatement("SELECT a.idappliance,a.appliancename,a.applianceunit,sum(m.energyvalue) FROM appliance a, sensor s, measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd') group by (a.idappliance,a.appliancename,a.applianceunit)");
+
+			preparedStatement.setString(1, startDate);
+			preparedStatement.setString(2, finDate);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				int idAppliance = rs.getInt(1);
+                String applianceName = rs.getString(2);
+                String applianceUnit = rs.getString(3);
+               	Double total = rs.getDouble(4);
+                Appliance a=Factory.createAppliance(applianceName);
+                a.setIdAppliance(idAppliance);
+                a.setApplianceUnit(applianceUnit);
+				tmp.put(a, total);
+
+			}
+
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+
+		}
+		return tmp;
+		
+		
+	}
+	
 	@Override
 	public Map<Appliance, Double> getApplianceMostConsume() {
 
@@ -192,6 +310,38 @@ public class LauncherImpl implements Launcher {
 			System.out.println(e.getMessage());
 		}
 		return tmp;
+	}
+	
+	public Map<Appliance, Double> getApplianceMostConsume(String startDate,String finDate){
+		
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		HashMap<Appliance, Double> tmp = new HashMap<Appliance, Double>();
+		try {
+			connect = daoFactory.getConnection();
+			preparedStatement = connect
+					.prepareStatement("SELECT a.idappliance,a.appliancename,a.applianceunit,sum(m.energyvalue) FROM appliance a, sensor s, measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd') group by (a.idappliance,a.appliancename,a.applianceunit) order by sum(m.energyvalue) desc");
+			preparedStatement.setString(1, startDate);
+			preparedStatement.setString(2, finDate);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				int idAppliance = rs.getInt(1);
+				String applianceName = rs.getString(2);
+				String applianceUnit = rs.getString(3);
+				Double total = rs.getDouble(4);
+				Appliance a = Factory.createAppliance(applianceName);
+				a.setIdAppliance(idAppliance);
+				a.setApplianceUnit(applianceUnit);
+				tmp.put(a, total);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return tmp;
+		
+		
+		
+		
 	}
 	
 	@Override
@@ -226,7 +376,42 @@ public class LauncherImpl implements Launcher {
 		}
 		return tmp;
 	}
- 
+    
+	public Map<Appliance, Double> getApplianceLeastConsume(String startDate,String finDate) {
+		
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+
+		HashMap<Appliance, Double> tmp = new HashMap<Appliance, Double>();
+
+		try {
+			connect = daoFactory.getConnection();
+			preparedStatement = connect
+					.prepareStatement("SELECT a.idappliance,a.appliancename,a.applianceunit,sum(m.energyvalue) FROM appliance a, sensor s, measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd') group by (a.idappliance,a.appliancename,a.applianceunit) order by sum(m.energyvalue) asc");
+			preparedStatement.setString(1, startDate);
+			preparedStatement.setString(2, finDate);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			if (rs.next()) {
+
+				int idAppliance = rs.getInt(1);
+				String applianceName = rs.getString(2);
+				String applianceUnit = rs.getString(3);
+				Double total = rs.getDouble(4);
+				Appliance a = Factory.createAppliance(applianceName);
+				a.setIdAppliance(idAppliance);
+				a.setApplianceUnit(applianceUnit);
+				tmp.put(a, total);
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return tmp;
+		
+	}
+	
+	
 	@Override
 	public Map<String, Double> getMostConsumeDate() {
 
