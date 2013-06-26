@@ -33,11 +33,11 @@ public class Accueil extends HttpServlet {
     	Map<String, Double> minDate = launch.getLeastConsumeDate();
     	
     	System.out.println(minHousehold.size());
-    	request.setAttribute("householdMax", maxConsumptionHousehold);    	
-    	request.setAttribute("applianceMax", maxAppliance);
-    	request.setAttribute("dateMax", maxDate);
+    	request.setAttribute("householdMax", maxConsumptionHousehold); 
     	request.setAttribute("householdMin", minHousehold);
+    	request.setAttribute("applianceMax", maxAppliance);
     	request.setAttribute("applianceMin", minAppliance);
+    	request.setAttribute("dateMax", maxDate);
     	request.setAttribute("dateMin", minDate);
     	this.getServletContext().getRequestDispatcher( "/accueil.jsp" ).forward( request, response );
     }

@@ -12,5 +12,6 @@
 		<li><a href="maxConsumptionAppliance">Equipement énergivore</a></li>
 		<li><a href="minConsumptionAppliance">Equipement économe</a></li>
 		<li><a href="maxConsumptionDate">Pic de consommation</a></li>
+		<li><a href="minConsumptionDate">Consommation la plus faible</a></li>
 	</ul>
 </div>

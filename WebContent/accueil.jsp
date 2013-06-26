@@ -104,9 +104,9 @@ body {
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${appliancedMax}" var="appliance">
+								<c:forEach items="${applianceMax}" var="appliance">
 									<tr>
-										<td><c:out value="${appliance.key}" /></td>
+										<td><c:out value="${appliance.key.applianceName}" /></td>
 										<td><c:out value="${appliance.value}" /></td>
 									</tr>
 								</c:forEach>
@@ -129,12 +129,12 @@ body {
 								</tr>
 							</thead>
 							<tbody>
-<%-- 								<c:forEach items="${dateMax}" var="date"> --%>
+								<c:forEach items="${dateMax}" var="date">
 									<tr>
-										<td><c:out value="${dateMax.key}" /></td>
-										<td><c:out value="${dateMax.value}" /></td>
+										<td><c:out value="${date.key}" /></td>
+										<td><c:out value="${date.value}" /></td>
 									</tr>
-<%-- 								</c:forEach> --%>
+								</c:forEach>
 
 							</tbody>
 						</table>

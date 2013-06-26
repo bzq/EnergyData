@@ -163,7 +163,7 @@ body {
 								<tbody>
 									<c:forEach items="${sensorsList}" var="sensor">
 										<tr>
-											<td><c:out value="${sensor.key.appliance.applianceName}" /></td>
+											<td><c:out value="${sensor.key.appliance}" /></td>
 											<td><c:out value="${sensor.key.identifySensor}" /></td>
 											<td><c:out value="${sensor.value}" /></td>
 										</tr>

@@ -41,9 +41,10 @@ public class MaxConsumptionHousehold extends HttpServlet {
     	
     	String maison = request.getParameter("valeur");
     	int houseHoldId = Integer.parseInt(maison);
+
     	Map<Integer, Double> maxConsumptionHousehold = launch.getHouseHoldMostConsume();
     	Map<Sensor, Double> listOfSensors = launch.getSensorsList(houseHoldId);
-    	
+
     	request.setAttribute("maxConsumptionHousehold", maxConsumptionHousehold);
     	request.setAttribute("sensorsList", listOfSensors);
     	
