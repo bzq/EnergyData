@@ -79,7 +79,7 @@ body {
 				<jsp:include page="../menu.jsp" />
 				<!--/.well -->
 
-				<form class="well" method="get" action="maxConsumptionDate">
+				<form class="well" method="get" action="minConsumptionDate">
 					<fieldset>
 						<div class="span6">
 							<p>
@@ -105,7 +105,7 @@ body {
 					<div class="span12">
 						<table class="table table-bordered table-striped table-condensed">
 							<caption>
-								<h4>Date où la consommation a été la plus forte</h4>
+								<h4>Date où la consommation a été la plus faible</h4>
 							</caption>
 							<thead>
 								<tr>
@@ -115,7 +115,7 @@ body {
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${maxConsumptionDate}" var="date">
+								<c:forEach items="${minConsumptionDate}" var="date">
 									<tr>
 										<td><c:out value="${date.key}" /></td>
 										<td><c:out value="${date.value}" /></td>
@@ -127,7 +127,7 @@ body {
 												<c:if test="${empty appliancesList}">
 
 
-							<form method="post" action="maxConsumptionDate">
+							<form method="post" action="minConsumptionDate">
 								<fieldset>
 									<c:forEach items="${maxConsumptionDate}" var="date">
 										<input type="hidden" id="valeur" name="valeur"

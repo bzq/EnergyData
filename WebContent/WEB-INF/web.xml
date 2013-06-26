@@ -114,6 +114,15 @@
 		<servlet-name>MaxConsumptionDate</servlet-name>
 		<url-pattern>/maxConsumptionDate</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>MinConsumptionDate</servlet-name>
+		<servlet-class>org.energydata.servlets.MinConsumptionDate</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MinConsumptionDate</servlet-name>
+		<url-pattern>/minConsumptionDate</url-pattern>
+	</servlet-mapping>
 
 
 

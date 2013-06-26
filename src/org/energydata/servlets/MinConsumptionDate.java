@@ -25,7 +25,7 @@ import org.energydata.services.Launcher;
 import org.energydata.services.LauncherImpl;
 import org.joda.time.DateTime;
 
-public class MaxConsumptionDate extends HttpServlet {
+public class MinConsumptionDate extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 
 
@@ -43,11 +43,11 @@ public class MaxConsumptionDate extends HttpServlet {
     	request.setAttribute("startDate", startDate);
     	request.setAttribute("endDate", endDate);
     	
-    	Map<String, Double> maxConsumptionDate = launch.getMostConsumeDate();
+    	Map<String, Double> minConsumptionDate = launch.getLeastConsumeDate();
  
 
-    	request.setAttribute("maxConsumptionDate", maxConsumptionDate);
-    	this.getServletContext().getRequestDispatcher( "/WEB-INF/maxConsumptionDate.jsp" ).forward( request, response );
+    	request.setAttribute("minConsumptionDate", minConsumptionDate);
+    	this.getServletContext().getRequestDispatcher( "/WEB-INF/minConsumptionDate.jsp" ).forward( request, response );
     }
     
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
@@ -65,12 +65,12 @@ public class MaxConsumptionDate extends HttpServlet {
 			e.printStackTrace();
 		}
     	Map<Appliance, Double> listOfAppliances = launch.getAppliancesList(newDate);
-    	Map<String, Double> maxConsumptionDate = launch.getMostConsumeDate();
+    	Map<String, Double> minConsumptionDate = launch.getLeastConsumeDate();
 
-    	request.setAttribute("maxConsumptionDate", maxConsumptionDate);
+    	request.setAttribute("minConsumptionDate", minConsumptionDate);
     	request.setAttribute("appliancesList", listOfAppliances);
     	
-    	this.getServletContext().getRequestDispatcher( "/WEB-INF/maxConsumptionDate.jsp" ).forward( request, response );
+    	this.getServletContext().getRequestDispatcher( "/WEB-INF/minConsumptionDate.jsp" ).forward( request, response );
     }
 
 }

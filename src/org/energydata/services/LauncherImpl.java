@@ -449,6 +449,14 @@ public class LauncherImpl implements Launcher {
 	}
 
 
+
+	@Override
+	public Map<Appliance, Double> getAppliancesList(Date date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	
 	
 
