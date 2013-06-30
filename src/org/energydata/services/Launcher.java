@@ -49,8 +49,6 @@ public interface Launcher {
 	//Retourne le nombre de capteur pour une appliance donnée en parametre
 	int getNumberOfSensor(Appliance appliance);
 
-	//Retourne le total de la consommation pour la date "date" pour chaque appliance ayant fonctionné durant cette journée
-	Map<Appliance,Double> getAppliancesList(Date date);
 
 
 

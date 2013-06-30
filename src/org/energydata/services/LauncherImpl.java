@@ -78,7 +78,7 @@ public class LauncherImpl implements Launcher {
 		try {
 			connect = daoFactory.getConnection();
 			preparedStatement = connect
-					.prepareStatement("SELECT h.idhousehold,sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename='Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd')  group by h.idhousehold");
+					.prepareStatement("SELECT h.idhousehold,sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename='Site consumption' and m.datemeasure between to_date (?, 'dd/mm/yyyy') AND to_date (?, 'dd/mm/yyyy')  group by h.idhousehold");
             
 			preparedStatement.setString(1, startDate);
 			preparedStatement.setString(2, finDate);
@@ -137,7 +137,7 @@ public class LauncherImpl implements Launcher {
 		try {
 			connect = daoFactory.getConnection();
 			preparedStatement = connect
-					.prepareStatement("SELECT h.idhousehold as idHouseHold, sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename='Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd') group by h.idhousehold order by sum(m.energyvalue) desc");
+					.prepareStatement("SELECT h.idhousehold as idHouseHold, sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename='Site consumption' and m.datemeasure between to_date (?, 'dd/mm/yyyy') AND to_date (?, 'dd/mm/yyyy') group by h.idhousehold order by sum(m.energyvalue) desc");
 			preparedStatement.setString(1, startDate);
 			preparedStatement.setString(2, finDate);
 			ResultSet rs = preparedStatement.executeQuery();
@@ -189,7 +189,7 @@ public class LauncherImpl implements Launcher {
 		try {
 			connect = daoFactory.getConnection();
 			preparedStatement = connect
-					.prepareStatement("SELECT  h.idhousehold as idHouseHold, sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename='Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd') group by h.idhousehold order by sum(m.energyvalue)");
+					.prepareStatement("SELECT  h.idhousehold as idHouseHold, sum(m.energyvalue) as Total FROM household h,appliance a, sensor s, measure m WHERE h.idhousehold=s.idhousehold and a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename='Site consumption' and m.datemeasure between to_date (?, 'dd/mm/yyyy') AND to_date (?, 'dd/mm/yyyy') group by h.idhousehold order by sum(m.energyvalue)");
 			preparedStatement.setString(1, startDate);
 			preparedStatement.setString(2, finDate);
 			ResultSet rs = preparedStatement.executeQuery();
@@ -255,7 +255,7 @@ public class LauncherImpl implements Launcher {
 		try {
 			connect = daoFactory.getConnection();
 			preparedStatement = connect
-					.prepareStatement("SELECT a.idappliance,a.appliancename,a.applianceunit,sum(m.energyvalue) FROM appliance a, sensor s, measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd') group by (a.idappliance,a.appliancename,a.applianceunit)");
+					.prepareStatement("SELECT a.idappliance,a.appliancename,a.applianceunit,sum(m.energyvalue) FROM appliance a, sensor s, measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' and m.datemeasure between to_date (?, 'dd/mm/yyyy') AND to_date (?, 'dd/mm/yyyy') group by (a.idappliance,a.appliancename,a.applianceunit)");
 
 			preparedStatement.setString(1, startDate);
 			preparedStatement.setString(2, finDate);
@@ -320,7 +320,7 @@ public class LauncherImpl implements Launcher {
 		try {
 			connect = daoFactory.getConnection();
 			preparedStatement = connect
-					.prepareStatement("SELECT a.idappliance,a.appliancename,a.applianceunit,sum(m.energyvalue) FROM appliance a, sensor s, measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd') group by (a.idappliance,a.appliancename,a.applianceunit) order by sum(m.energyvalue) desc");
+					.prepareStatement("SELECT a.idappliance,a.appliancename,a.applianceunit,sum(m.energyvalue) FROM appliance a, sensor s, measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' and m.datemeasure between to_date (?, 'dd/mm/yyyy') AND to_date (?, 'dd/mm/yyyy') group by (a.idappliance,a.appliancename,a.applianceunit) order by sum(m.energyvalue) desc");
 			preparedStatement.setString(1, startDate);
 			preparedStatement.setString(2, finDate);
 			ResultSet rs = preparedStatement.executeQuery();
@@ -387,7 +387,7 @@ public class LauncherImpl implements Launcher {
 		try {
 			connect = daoFactory.getConnection();
 			preparedStatement = connect
-					.prepareStatement("SELECT a.idappliance,a.appliancename,a.applianceunit,sum(m.energyvalue) FROM appliance a, sensor s, measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' and m.datemeasure between to_date (?, 'yyyy/mm/dd') AND to_date (?, 'yyyy/mm/dd') group by (a.idappliance,a.appliancename,a.applianceunit) order by sum(m.energyvalue) asc");
+					.prepareStatement("SELECT a.idappliance,a.appliancename,a.applianceunit,sum(m.energyvalue) FROM appliance a, sensor s, measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' and m.datemeasure between to_date (?, 'dd/mm/yyyy') AND to_date (?, 'dd/mm/yyyy') group by (a.idappliance,a.appliancename,a.applianceunit) order by sum(m.energyvalue) asc");
 			preparedStatement.setString(1, startDate);
 			preparedStatement.setString(2, finDate);
 			ResultSet rs = preparedStatement.executeQuery();
@@ -423,7 +423,7 @@ public class LauncherImpl implements Launcher {
 		try {
 			connect = daoFactory.getConnection();
 			preparedStatement = connect
-					.prepareStatement("SELECT TO_CHAR(m.datemeasure, 'DD-MON-YYYY'),sum(m.energyvalue)FROM appliance a, sensor s,measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' group by (TO_CHAR(m.datemeasure, 'DD-MON-YYYY')) order by sum(m.energyvalue) desc");
+					.prepareStatement("SELECT TO_CHAR(m.datemeasure, 'DD/MM/YYYY'),sum(m.energyvalue)FROM appliance a, sensor s,measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' group by (TO_CHAR(m.datemeasure, 'DD/MM/YYYY')) order by sum(m.energyvalue) desc");
 
 	
 
@@ -531,7 +531,7 @@ public class LauncherImpl implements Launcher {
 		try {
 			connect = daoFactory.getConnection();
 			preparedStatement = connect
-					.prepareStatement("SELECT TO_CHAR(m.datemeasure, 'DD-MON-YYYY'),sum(m.energyvalue)FROM appliance a, sensor s,measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' group by (TO_CHAR(m.datemeasure, 'DD-MON-YYYY')) order by sum(m.energyvalue) asc");
+					.prepareStatement("SELECT TO_CHAR(m.datemeasure, 'dd/mm/yyyy'),sum(m.energyvalue)FROM appliance a, sensor s,measure m WHERE  a.idappliance=s.idappliance and s.idsensor = m.idsensor and a.appliancename<>'Site consumption' group by (TO_CHAR(m.datemeasure, 'dd/mm/yyyy')) order by sum(m.energyvalue) asc");
 
 	
 
@@ -633,13 +633,6 @@ public class LauncherImpl implements Launcher {
 		
 	}
 
-
-
-	@Override
-	public Map<Appliance, Double> getAppliancesList(Date date) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 	

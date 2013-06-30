@@ -24,9 +24,22 @@ public class MinConsumptionHousehold extends HttpServlet {
 
     	
     	Launcher launch = new LauncherImpl();
-    	Map<Integer, Double> minConsumptionHousehold = launch.getHouseHoldLeastConsume();
- 
 
+    	String startDate = request.getParameter("startDate");
+    	String endDate = request.getParameter("endDate");
+    	
+    	
+    	Map<Integer, Double> minConsumptionHousehold = null;
+    	
+       	if(startDate != null && endDate != null){
+       		minConsumptionHousehold = launch.getHouseHoldLeastConsume(startDate,endDate);
+       	}
+       	else{
+       		minConsumptionHousehold = launch.getHouseHoldLeastConsume();
+       	} 
+ 
+    	request.setAttribute("startDate", startDate);
+    	request.setAttribute("endDate", endDate);
     	request.setAttribute("minConsumptionHousehold", minConsumptionHousehold);
     	this.getServletContext().getRequestDispatcher( "/WEB-INF/minConsumptionHousehold.jsp" ).forward( request, response );
     }
@@ -37,9 +50,27 @@ public class MinConsumptionHousehold extends HttpServlet {
     	
     	String maison = request.getParameter("valeur");
     	int houseHoldId = Integer.parseInt(maison);
-    	Map<Integer, Double> minConsumptionHousehold = launch.getHouseHoldLeastConsume();
-    	Map<Sensor, Double> listOfSensors = launch.getSensorsList(houseHoldId);
     	
+    	String startDate = request.getParameter("startDate");
+    	String endDate = request.getParameter("endDate");
+    	
+    	
+    	Map<Integer, Double> minConsumptionHousehold = null;
+    	Map<Sensor, Double> listOfSensors = null;
+    	
+       	if(startDate != null && endDate != null){
+       		minConsumptionHousehold = launch.getHouseHoldLeastConsume(startDate,endDate);
+        	listOfSensors = launch.getSensorsList(houseHoldId);
+       	}
+       	else{
+       		minConsumptionHousehold = launch.getHouseHoldLeastConsume();
+        	listOfSensors = launch.getSensorsList(houseHoldId);
+       	} 
+    	listOfSensors = launch.getSensorsList(houseHoldId);
+    	
+    	
+    	request.setAttribute("startDate", startDate);
+    	request.setAttribute("endDate", endDate);
     	request.setAttribute("minConsumptionHousehold", minConsumptionHousehold);
     	request.setAttribute("sensorsList", listOfSensors);
     	

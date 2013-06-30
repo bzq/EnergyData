@@ -53,7 +53,7 @@ body {
 	$(function() {
 		$(".datepicker").datepicker();
 		$(".datepicker").datepicker("option", "regional", "fr");
-		$(".datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
+		$(".datepicker").datepicker("option", "dateFormat", "dd/mm/yy");
 		$(".datepicker").datepicker("option", "minDate",
 				new Date(1998, 1 - 1, 23));
 		$(".datepicker").datepicker("option", "maxDate",
@@ -150,12 +150,11 @@ body {
 								<thead>
 									<tr>
 										<th>Equipement</th>
-										<th>Numéro</th>
 										<th>Consommation sur la période</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${appliancesList}" var="sensor">
+									<c:forEach items="${appliancesList}" var="appliance">
 										<tr>
 											<td><c:out value="${appliance.key.applianceName}" /></td>
 											<td><c:out value="${appliance.value}" /></td>

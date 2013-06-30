@@ -53,7 +53,7 @@ body {
 	$(function() {
 		$(".datepicker").datepicker();
 		$(".datepicker").datepicker("option", "regional", "fr");
-		$(".datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
+		$(".datepicker").datepicker("option", "dateFormat", "dd/mm/yy");
 		$(".datepicker").datepicker("option", "minDate",
 				new Date(1998, 1 - 1, 23));
 		$(".datepicker").datepicker("option", "maxDate",
@@ -124,12 +124,10 @@ body {
 
 							</tbody>
 						</table>
-												<c:if test="${empty appliancesList}">
-
-
+						<c:if test="${empty appliancesList}">
 							<form method="post" action="minConsumptionDate">
 								<fieldset>
-									<c:forEach items="${maxConsumptionDate}" var="date">
+									<c:forEach items="${minConsumptionDate}" var="date">
 										<input type="hidden" id="valeur" name="valeur"
 											value="${date.key}" />
 									</c:forEach>
@@ -150,12 +148,11 @@ body {
 								<thead>
 									<tr>
 										<th>Equipement</th>
-										<th>Numéro</th>
 										<th>Consommation sur la période</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${appliancesList}" var="sensor">
+									<c:forEach items="${appliancesList}" var="appliance">
 										<tr>
 											<td><c:out value="${appliance.key.applianceName}" /></td>
 											<td><c:out value="${appliance.value}" /></td>
@@ -168,19 +165,19 @@ body {
 					</c:if>
 
 
-					</div>
 				</div>
-				<!--/row-->
 			</div>
-			<!--/span-->
+			<!--/row-->
 		</div>
-		<!--/row-->
+		<!--/span-->
+	</div>
+	<!--/row-->
 
-		<hr>
+	<hr>
 
-		<footer>
-		<p>&copy; EnergyData 2013</p>
-		</footer>
+	<footer>
+	<p>&copy; EnergyData 2013</p>
+	</footer>
 
 	</div>
 	<!--/.fluid-container-->

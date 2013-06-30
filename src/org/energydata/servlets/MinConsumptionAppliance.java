@@ -26,7 +26,13 @@ public class MinConsumptionAppliance extends HttpServlet {
     	String endDate = request.getParameter("endDate");
     	
        	Launcher launch = new LauncherImpl();
-    	Map<Appliance, Double> minConsumptionAppliance = launch.getApplianceLeastConsume();
+    	Map<Appliance, Double> minConsumptionAppliance = null;
+       	if(startDate != null && endDate != null){
+       		minConsumptionAppliance = launch.getApplianceLeastConsume(startDate,endDate);
+       	}
+       	else{
+       		minConsumptionAppliance = launch.getApplianceLeastConsume();
+       	} 
     	Appliance appliance = minConsumptionAppliance.entrySet().iterator().next().getKey();
     	int sensorNumber = launch.getNumberOfSensor(appliance);
 
@@ -36,6 +42,10 @@ public class MinConsumptionAppliance extends HttpServlet {
     	request.setAttribute("endDate", endDate);
     	
     	this.getServletContext().getRequestDispatcher( "/WEB-INF/minConsumptionAppliance.jsp" ).forward( request, response );
+    }
+    
+    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
+    	doGet(request, response);
     }
 
 }

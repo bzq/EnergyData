@@ -53,7 +53,7 @@ body {
 	$(function() {
 		$(".datepicker").datepicker();
 		$(".datepicker").datepicker("option", "regional", "fr");
-		$(".datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
+		$(".datepicker").datepicker("option", "dateFormat", "dd/mm/yy");
 		$(".datepicker").datepicker("option", "minDate",
 				new Date(1998, 1 - 1, 23));
 		$(".datepicker").datepicker("option", "maxDate",
@@ -78,20 +78,20 @@ body {
 			<div class="span3">
 				<jsp:include page="../menu.jsp" />
 				<!--/.well -->
-				
+
 				<form class="well" method="get" action="maxConsumptionHousehold">
 					<fieldset>
 						<div class="span6">
 							<p>
-								Date début: <input type="text" class="datepicker"
-									name="startDate" id="startDate" />
-									
+								Date début: <input type="text" class="datepicker" name="startDate"
+									id="startDate" value="${dateDeb}"/>
+									${dateDeb}
 							</p>
 						</div>
 						<div class="span6">
 							<p>
 								Date fin: <input type="text" class="datepicker" name="endDate"
-									id="endDate" value=${endDate}/>
+									id="endDate" value="${dateFin}"/>
 							</p>
 						</div>
 						<button type="submit">Envoyer</button>
@@ -112,8 +112,8 @@ body {
 									<th>Maison</th>
 									<th>Consommation</th>
 									<!-- 									<th>Nombre d'équipement éléctrique</th> -->
-									<!-- 									<th>Date début</th> -->
-									<!-- 									<th>Date fin</th> -->
+									<th>Date début</th>
+									<th>Date fin</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -122,8 +122,8 @@ body {
 										<td><c:out value="${household.key}" /></td>
 										<td><c:out value="${household.value}" /></td>
 										<%-- 										<td><c:out value="${household[2]}" /></td> --%>
-										<%-- 										<td><c:out value="${household[3]}" /></td> --%>
-										<%-- 										<td><c:out value="${household[4]}" /></td> --%>
+										<td><c:out value="${dateDeb}" /></td>
+										<td><c:out value="${dateFin}" /></td>
 									</tr>
 								</c:forEach>
 

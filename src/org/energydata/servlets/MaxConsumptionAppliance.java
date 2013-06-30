@@ -22,19 +22,17 @@ import org.energydata.services.LauncherImpl;
 public class MaxConsumptionAppliance extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 
-
-//    	String[] appliance=new String[5];
-//    	appliance[0]="Chauffage électrique";
-//    	appliance[1]="450MW";
-//    	appliance[2]="4000";
-//    	appliance[3]="01-01-1998";
-//    	appliance[4]="02-02-1999";
-    	
     	String startDate = request.getParameter("startDate");
     	String endDate = request.getParameter("endDate");
     	
        	Launcher launch = new LauncherImpl();
-    	Map<Appliance, Double> maxConsumptionAppliance = launch.getApplianceMostConsume();
+    	Map<Appliance, Double> maxConsumptionAppliance = null;
+       	if(startDate != null && endDate != null){
+       		maxConsumptionAppliance = launch.getApplianceMostConsume(startDate,endDate);
+       	}
+       	else{
+       		maxConsumptionAppliance = launch.getApplianceMostConsume();
+       	} 
     	Appliance appliance = maxConsumptionAppliance.entrySet().iterator().next().getKey();
     	int sensorNumber = launch.getNumberOfSensor(appliance);
 
@@ -44,6 +42,10 @@ public class MaxConsumptionAppliance extends HttpServlet {
     	request.setAttribute("endDate", endDate);
     	
     	this.getServletContext().getRequestDispatcher( "/WEB-INF/maxConsumptionAppliance.jsp" ).forward( request, response );
+    }
+    
+    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
+    	doGet(request, response);
     }
 
 }

@@ -53,7 +53,7 @@ body {
 	$(function() {
 		$(".datepicker").datepicker();
 		$(".datepicker").datepicker("option", "regional", "fr");
-		$(".datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
+		$(".datepicker").datepicker("option", "dateFormat", "dd/mm/yy");
 		$(".datepicker").datepicker("option", "minDate",
 				new Date(1998, 1 - 1, 23));
 		$(".datepicker").datepicker("option", "maxDate",

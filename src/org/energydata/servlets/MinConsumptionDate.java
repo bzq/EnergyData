@@ -27,25 +27,22 @@ import org.joda.time.DateTime;
 
 public class MinConsumptionDate extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
-
-
-//    	String[] household=new String[5];
-//    	household[0]="2001000";
-//    	household[1]="450MW";
-//    	household[2]="600";
-//    	household[3]="01-01-1998";
-//    	household[4]="02-02-1999";
     	
     	Launcher launch = new LauncherImpl();
     	String startDate = request.getParameter("startDate");
     	String endDate = request.getParameter("endDate");
     	
+    	Map<String, Double> minConsumptionDate = null;
+    	
+       	if(startDate != null && endDate != null){
+//       		minConsumptionDate = launch.getMostConsumeDate(startDate,endDate);
+       	}
+       	else{
+       		minConsumptionDate = launch.getMostConsumeDate();
+       	} 
+
     	request.setAttribute("startDate", startDate);
     	request.setAttribute("endDate", endDate);
-    	
-    	Map<String, Double> minConsumptionDate = launch.getLeastConsumeDate();
- 
-
     	request.setAttribute("minConsumptionDate", minConsumptionDate);
     	this.getServletContext().getRequestDispatcher( "/WEB-INF/minConsumptionDate.jsp" ).forward( request, response );
     }
@@ -55,20 +52,27 @@ public class MinConsumptionDate extends HttpServlet {
     	Launcher launch = new LauncherImpl();
     	
     	String dat = request.getParameter("valeur");
-    	Date newDate = null;
-		SimpleDateFormat sdf = new SimpleDateFormat();
-		sdf.applyPattern("dd-MMMM -yyyy");
-		try {
-			newDate= sdf.parse(dat);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	Map<Appliance, Double> listOfAppliances = launch.getAppliancesList(newDate);
-    	Map<String, Double> minConsumptionDate = launch.getLeastConsumeDate();
+    	String startDate = request.getParameter("startDate");
+    	String endDate = request.getParameter("endDate");
+    	
+    	Map<String, Double> minConsumptionDate = null;
+    	
+       	if(startDate != null && endDate != null){
+//       		minConsumptionDate = launch.getMostConsumeDate(startDate,endDate);
+       	}
+       	else{
+       		minConsumptionDate = launch.getMostConsumeDate();
+       	} 
+    	
+       	String date = minConsumptionDate.entrySet().iterator().next().getKey();
+       	System.out.println(date);
+    	Map<Appliance, Double> listOfAppliances = launch.getTotalConsumeEachAppliance(date, date);
 
+    	request.setAttribute("startDate", startDate);
+    	request.setAttribute("endDate", endDate);
     	request.setAttribute("minConsumptionDate", minConsumptionDate);
     	request.setAttribute("appliancesList", listOfAppliances);
+    	
     	
     	this.getServletContext().getRequestDispatcher( "/WEB-INF/minConsumptionDate.jsp" ).forward( request, response );
     }

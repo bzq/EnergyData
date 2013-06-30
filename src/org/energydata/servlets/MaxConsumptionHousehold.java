@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.energydata.beans.Appliance;
 import org.energydata.beans.Factory;
 import org.energydata.beans.HouseHold;
 import org.energydata.beans.Sensor;
@@ -25,12 +26,21 @@ public class MaxConsumptionHousehold extends HttpServlet {
 
     	
     	Launcher launch = new LauncherImpl();
-    	Map<Integer, Double> maxConsumptionHousehold = launch.getHouseHoldMostConsume();
+
     	String startDate = request.getParameter("startDate");
     	String endDate = request.getParameter("endDate");
     	
-    	request.setAttribute("startDate", startDate);
-    	request.setAttribute("endDate", endDate);
+    	Map<Integer, Double> maxConsumptionHousehold = null;
+    	
+       	if(startDate != null && endDate != null){
+       		maxConsumptionHousehold = launch.getHouseHoldMostConsume(startDate,endDate);
+       	}
+       	else{
+       		maxConsumptionHousehold = launch.getHouseHoldMostConsume();
+       	} 
+    	
+    	request.setAttribute("dateDeb", startDate);
+    	request.setAttribute("dateFin", endDate);
     	request.setAttribute("maxConsumptionHousehold", maxConsumptionHousehold);
     	this.getServletContext().getRequestDispatcher( "/WEB-INF/maxConsumptionHousehold.jsp" ).forward( request, response );
     }
@@ -39,12 +49,29 @@ public class MaxConsumptionHousehold extends HttpServlet {
 
     	Launcher launch = new LauncherImpl();
     	
+    	String startDate = request.getParameter("startDate");
+    	String endDate = request.getParameter("endDate");
+    	
     	String maison = request.getParameter("valeur");
     	int houseHoldId = Integer.parseInt(maison);
 
-    	Map<Integer, Double> maxConsumptionHousehold = launch.getHouseHoldMostConsume();
-    	Map<Sensor, Double> listOfSensors = launch.getSensorsList(houseHoldId);
-
+    	Map<Integer, Double> maxConsumptionHousehold = null;
+    	Map<Sensor, Double> listOfSensors = null;
+    	
+    	
+    	Map<Appliance, Double> minConsumptionAppliance = null;
+       	if(startDate != null && endDate != null){
+       		maxConsumptionHousehold = launch.getHouseHoldMostConsume(startDate,endDate);
+       		listOfSensors = launch.getSensorsList(houseHoldId);
+       	}
+       	else{
+       		maxConsumptionHousehold = launch.getHouseHoldMostConsume();
+       		listOfSensors = launch.getSensorsList(houseHoldId);
+       	} 
+       	
+    	request.setAttribute("dateDeb", startDate);
+    	request.setAttribute("dateFin", endDate);
+    	request.setAttribute("param", "toto");
     	request.setAttribute("maxConsumptionHousehold", maxConsumptionHousehold);
     	request.setAttribute("sensorsList", listOfSensors);
     	

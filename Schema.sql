@@ -10,6 +10,8 @@ Drop SEQUENCE measure_Seq;
 Drop table Sensor cascade constraints;
 
 Drop SEQUENCE sensor_Seq;
+
+DROP TABLE Measure_SQLLOADER;
  
 
 
@@ -79,3 +81,10 @@ CREATE  TABLE Measure (
   CONSTRAINT fk_Measure_Sensor1 FOREIGN KEY (idSensor ) REFERENCES Sensor (idSensor ));
   
   CREATE SEQUENCE measure_Seq;
+  
+  
+  CREATE  TABLE Measure_SQLLOADER (
+  dateMeasure varchar2(30) NOT NULL,
+  heure varchar2(30) NOT NULL,
+  state INT NOT NULL ,
+  energyValue INT NOT NULL);
