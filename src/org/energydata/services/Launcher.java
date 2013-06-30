@@ -46,6 +46,8 @@ public interface Launcher {
 	// Le double en sortie si c'est possible que ce soit le total de la consommation de ce capteur pour cette maison
 	Map<Sensor,Double> getSensorsList(int houseHoldId);
 	
+	Map<Sensor,Double> getSensorsList(int houseHoldId,String startDate,String finDate);
+	
 	//Retourne le nombre de capteur pour une appliance donnée en parametre
 	int getNumberOfSensor(Appliance appliance);
 
